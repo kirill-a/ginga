@@ -1,13 +1,33 @@
 var demo = {};
+var wolf;
+var speed = 4;
 demo.state0 = function() {};
+
 demo.state0.prototype = {
-  preload: function() {},
+  preload: function() {
+    game.load.image('wolf', './assets/sprites/wolf.png');
+  },
   create: function(){
     console.log('state0')
+    
     addChangeStateEventListeners();
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    
+    wolf = game.add.sprite(1500 / 2, 1000 / 2, 'wolf');
+    wolf.anchor.setTo(0.5, 0.5);
   },
-  update: function(){}
+  update: function(){
+    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      wolf.x += speed;
+    } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+      wolf.x -= speed;
+    }
+    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+      wolf.y -= speed;
+    } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+      wolf.y += speed;
+    }
+  }
 };
 
 function changeState(key, stateNum) {
