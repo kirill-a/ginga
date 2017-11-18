@@ -1,29 +1,56 @@
 var demo = {};
 var wolf;
-var speed = 4;
+var speed = 6;
+var centerX = 1500/2;
+var centerY = 1000/2;
 demo.state0 = function() {};
 
 demo.state0.prototype = {
   preload: function() {
-    game.load.image('wolf', './assets/sprites/wolf.png');
+    game.load.spritesheet('wolf', './assets/spritesheets/wolf_sheet.png', 250, 420);
+    game.load.image('bg', './assets/backgrounds/back.png');
   },
   create: function(){
+    game.physics.startSystem(Phaser.Physics.ARCADE);
     console.log('state0')
-    
     addChangeStateEventListeners();
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     
-    wolf = game.add.sprite(1500 / 2, 1000 / 2, 'wolf');
+    game.world.setBounds(0, 0, 2813, 1000)
+    
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    var bg = game.add.sprite(0, 0, 'bg');
+    
+    wolf = game.add.sprite(centerX, centerY, 'wolf');
     wolf.anchor.setTo(0.5, 0.5);
+    wolf.scale.setTo(0.7, 0.7)
+
+    game.physics.enable(wolf);
+    wolf.body.collideWorldBounds = true;
+    
+    wolf.animations.add('walk', [0, 1, 2, 3]);
+    
+    game.camera.follow(wolf);
+    game.camera.deadzone = new Phaser.Rectangle(centerX - 300, 0, 600, 1000);
   },
   update: function(){
     if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      wolf.scale.setTo(0.7, 0.7)
       wolf.x += speed;
+      wolf.animations.play('walk', 14, true);
     } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+      wolf.scale.setTo(-0.7, 0.7)
       wolf.x -= speed;
+      wolf.animations.play('walk', 14, true);
     }
-    else if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+    else {
+      wolf.animations.stop('walk');
+      wolf.frame = 0;
+    }
+    if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
       wolf.y -= speed;
+      if (wolf.y < 572) {
+        wolf.y = 572;
+      }
     } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
       wolf.y += speed;
     }
