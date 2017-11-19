@@ -1,59 +1,104 @@
 var demo = {};
-var wolf;
+var ship, bullet, bullets, enemyGroup, cursors;
+var velocity = 700, nextFire = 0, fireRate = 500;
 var speed = 6;
-var centerX = 1500/2;
-var centerY = 1000/2;
-demo.state0 = function() {};
+var centerX = 800/2;
+var centerY = 600/2;
 
+demo.state0 = function() {};
 demo.state0.prototype = {
   preload: function() {
-    game.load.spritesheet('wolf', './assets/spritesheets/wolf_sheet.png', 250, 420);
-    game.load.image('bg', './assets/backgrounds/back.png');
+    game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 65);
+    game.load.spritesheet('vhs', './assets/sprites/vhs.png', 85, 65);
+    game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22);
+    game.load.image('bg', './assets/backgrounds/space.png');
   },
   create: function(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    console.log('state0')
     addChangeStateEventListeners();
     
-    game.world.setBounds(0, 0, 2813, 1000)
+    game.world.setBounds(0, 0, 800, 600);
     
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     var bg = game.add.sprite(0, 0, 'bg');
     
-    wolf = game.add.sprite(centerX, centerY, 'wolf');
-    wolf.anchor.setTo(0.5, 0.5);
-    wolf.scale.setTo(0.7, 0.7)
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    bullets.createMultiple(50, 'bullet');
+    bullets.setAll('checkWorldBounds', true);
+    bullets.setAll('outOfBoundsKill', true);
+    bullets.setAll('anchor.y', 0.5);
+    bullets.setAll('scale.x', 0.6);
+    bullets.setAll('scale.y', 0.6);
+    
+    ship = game.add.sprite(centerX/2, centerY, 'ship');
+    ship.anchor.setTo(0.5, 0.5);
+    //ship.scale.setTo(1.5, 1.5);
 
-    game.physics.enable(wolf);
-    wolf.body.collideWorldBounds = true;
+    game.physics.enable(ship);
+    ship.body.collideWorldBounds = true;
+    ship.body.gravity.x = -1000;
+    ship.body.bounce.x = 0.3;
+    ship.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    //bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6]);
     
-    wolf.animations.add('walk', [0, 1, 2, 3]);
+    cursors = game.input.keyboard.createCursorKeys();
     
-    game.camera.follow(wolf);
-    game.camera.deadzone = new Phaser.Rectangle(centerX - 300, 0, 600, 1000);
+    enemyGroup = game.add.group();
+    enemyGroup.enableBody = true;
+    enemyGroup.physicsBodyType = Phaser.Physics.ARCADE;
+    
+    for (var i = 0; i < 5; i++) {
+      enemyGroup.create(700, 150 * i + 100, 'vhs');
+    }
+
+    enemyGroup.setAll('anchor.y', 0.5);
+    enemyGroup.setAll('anchor.x', 0.5);
+    enemyGroup.setAll('scale.x', 1.4);
+    enemyGroup.setAll('scale.y', 1.4);
   },
   update: function(){
-    if (game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      wolf.scale.setTo(0.7, 0.7)
-      wolf.x += speed;
-      wolf.animations.play('walk', 14, true);
-    } else if (game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      wolf.scale.setTo(-0.7, 0.7)
-      wolf.x -= speed;
-      wolf.animations.play('walk', 14, true);
+    ship.animations.play('fly', 30, true);
+    //bullet.animations.play('shoot', 30, true);
+    if (cursors.left.isDown) {
+      ship.body.velocity.x = -400;
+    } else if (cursors.right.isDown) {
+//      ship.body.acceleration.x = accel;
+      ship.body.velocity.x = 400;
+    } else { ship.body.velocity.x = 0;};
+    if (cursors.up.isDown){
+//      ship.body.acceleration.y = -accel;
+      ship.body.velocity.y = -300;
     }
-    else {
-      wolf.animations.stop('walk');
-      wolf.frame = 0;
+    else if (cursors.down.isDown) {
+//      ship.body.acceleration.y = accel;
+      ship.body.velocity.y = 300;
     }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-      wolf.y -= speed;
-      if (wolf.y < 572) {
-        wolf.y = 572;
-      }
-    } else if (game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-      wolf.y += speed;
+    else { ship.body.velocity.y = 0; };
+    
+    if (game.input.activePointer.isDown) {
+      this.fire();
+    };
+
+    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup);
+  },
+    
+  fire: function() {
+    if(game.time.now > nextFire) {
+      nextFire = game.time.now + fireRate;
+      console.log('firing');
+      bullet = bullets.getFirstDead();
+      bullet.reset(ship.x, ship.y);
+
+      game.physics.arcade.moveToPointer(bullet, velocity);
+      bullet.rotation = game.physics.arcade.angleToPointer(bullet);
     }
+  },
+
+  hitGroup: function(e) {
+    bullet.kill();
+    e.kill();
   }
 };
 
