@@ -1,5 +1,5 @@
 var demo = {};
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect;
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme;
 var bulletvelocity = 700, nextFire = 0, fireRate = 300;
 var speed = 6;
 var centerX = 800/2;
@@ -21,16 +21,23 @@ demo.level1.prototype = {
     game.load.spritesheet('vhs', './assets/sprites/vhs.png', 85, 65);
     game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22);
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80);
-    //game.load.image('bg', './assets/backgrounds/space.png');
+    game.load.image('bg', './assets/backgrounds/space.png');
     game.load.image('star', './assets/sprites/star.png');
     game.load.audio('shootSound', 'assets/sounds/shoot.wav');
+    game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav');
+    game.load.audio('theme', 'assets/bgm/theme.ogg');
   },
   create: function(){
     game.stage.backgroundColor = '#800080';
     game.physics.startSystem(Phaser.Physics.ARCADE);
     addChangeStateEventListeners();
+    
+    theme = game.add.audio('theme', 0.3, true);
+    theme.play();
     shootSound = game.add.audio('shootSound');
     shootSound.addMarker('shoot', 0, 2);
+    deadSound = game.add.audio('deadSound');
+    deadSound.addMarker('dead', 0, 2);
     game.world.setBounds(0, 0, 800, 600);
     
     //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -82,9 +89,15 @@ demo.level1.prototype = {
     enemyGroup.setAll('scale.x', 1.7);
     enemyGroup.setAll('scale.y', 1.7);
   },
+  
   moveEnemy: function (it) {
-    game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeOut', true, 0, -1, true)
+    game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeOut', true, 0, -1, true);
   },
+  
+  rotateEnemy: function (it) {
+    it.rotation += 0.05;
+  },
+  
   update: function() {
     texture.clear();
     for (var i = 0; i < max; i++)
@@ -99,7 +112,7 @@ demo.level1.prototype = {
         }
         texture.renderXY(star, x, y);
     }
-    
+    enemyGroup.forEach(this.rotateEnemy);
     ship.animations.play('fly', 30, true);
     if (cursors.left.isDown) {
       ship.body.velocity.x = -400;
@@ -140,6 +153,8 @@ demo.level1.prototype = {
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5]);
     boom.killOnComplete=true;
     boomEffect.animations.play('boomEffect', 14, false);
+    deadSound.play('dead');
+    theme.stop();
     changeState('gameOver');
   },
 
@@ -150,6 +165,7 @@ demo.level1.prototype = {
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5]);
     boom.killOnComplete=true;
     boomEffect.animations.play('boomEffect', 14, false);
+    deadSound.play('dead');
   }
 };
 
