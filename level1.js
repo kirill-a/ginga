@@ -1,4 +1,3 @@
-var demo = {};
 var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme;
 var bulletvelocity = 700, nextFire = 0, fireRate = 300;
 var speed = 6;
@@ -10,9 +9,7 @@ var star;
 var texture;
 
 var max = 50;
-var xx = [];
-var yy = [];
-var zz = [];
+var xx = [], yy = [], zz = [];
 
 demo.level1 = function() {};
 demo.level1.prototype = {
@@ -30,7 +27,6 @@ demo.level1.prototype = {
   create: function(){
     game.stage.backgroundColor = '#800080';
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    addChangeStateEventListeners();
     
     theme = game.add.audio('theme', 0.3, true);
     theme.play();
@@ -171,21 +167,4 @@ demo.level1.prototype = {
 
 function changeState(stateName) {
   game.state.start(stateName);
-}
-
-function addKeyCallback(key, fn, args) {
-  game.input.keyboard.addKey(key).onDown.add(fn, null, null, args)
-}
-
-function addChangeStateEventListeners() {
-  addKeyCallback(Phaser.Keyboard.ZERO,  changeState, 0)
-  addKeyCallback(Phaser.Keyboard.ONE,   changeState, 1)
-  addKeyCallback(Phaser.Keyboard.TWO,   changeState, 2)
-  addKeyCallback(Phaser.Keyboard.THREE, changeState, 3)
-  addKeyCallback(Phaser.Keyboard.FOUR,  changeState, 4)
-  addKeyCallback(Phaser.Keyboard.FIVE,  changeState, 5)
-  addKeyCallback(Phaser.Keyboard.SIX,   changeState, 6)
-  addKeyCallback(Phaser.Keyboard.SEVEN, changeState, 7)
-  addKeyCallback(Phaser.Keyboard.EIGHT, changeState, 8)
-  addKeyCallback(Phaser.Keyboard.NINE,  changeState, 9)
-}
+};
