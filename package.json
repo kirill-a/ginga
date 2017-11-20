@@ -1,0 +1,22 @@
+{
+  "name": "ginga",
+  "version": "1.0.0",
+  "description": "**in development**",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirill-a/ginga.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kirill-a/ginga/issues"
+  },
+  "homepage": "https://github.com/kirill-a/ginga#readme",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  }
+}
