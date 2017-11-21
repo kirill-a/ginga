@@ -30,7 +30,7 @@ demo.level1.prototype = {
     theme = game.add.audio('theme1', 0.3, true)
     if (!theme1playing) {
       theme.play()
-      theme1playing = true;
+      theme1playing = true
     }
     shootSound = game.add.audio('shootSound')
     shootSound.addMarker('shoot', 0, 2)

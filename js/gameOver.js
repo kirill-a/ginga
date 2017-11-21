@@ -12,6 +12,7 @@ demo.gameOver.prototype = {
   update: function () {
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       changeState('level1')
+      highscore = 0
     }
   }
 }
