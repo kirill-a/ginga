@@ -21,13 +21,13 @@ demo.level1.prototype = {
     game.load.image('star', './assets/sprites/star.png');
     game.load.audio('shootSound', 'assets/sounds/shoot.wav');
     game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav');
-    game.load.audio('theme', 'assets/bgm/theme.ogg');
+    game.load.audio('theme1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3');
   },
   create: function(){
     game.stage.backgroundColor = '#800080';
     game.physics.startSystem(Phaser.Physics.ARCADE);
     
-    theme = game.add.audio('theme', 0.3, true);
+    theme = game.add.audio('theme1', 0.3, true);
     theme.play();
     shootSound = game.add.audio('shootSound');
     shootSound.addMarker('shoot', 0, 2);
@@ -156,7 +156,6 @@ demo.level1.prototype = {
     boom.killOnComplete=true;
     boomEffect.animations.play('boomEffect', 14, false);
     deadSound.play('dead');
-    theme.stop();
     changeState('gameOver');
   },
 
