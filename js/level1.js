@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion;
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion, highscore = 0;
 var bulletvelocity = 700, nextFire = 0, fireRate = 300;
 var speed = 6;
 var centerX = 800/2;
@@ -7,8 +7,7 @@ var distance = 300;
 var speed = 6;
 var star;
 var texture;
-
-var max = 50;
+var numberOfStars = 50;
 var xx = [], yy = [], zz = [];
 
 demo.level1 = function() {};
@@ -43,7 +42,7 @@ demo.level1.prototype = {
 
     game.add.sprite(0, 0, texture);
 
-    for (var i = 0; i < max; i++)
+    for (var i = 0; i < numberOfStars; i++)
     {
         xx[i] = Math.floor(Math.random() * 800) - 400;
         yy[i] = Math.floor(Math.random() * 600) - 300;
@@ -99,7 +98,7 @@ demo.level1.prototype = {
    
   update: function() {
     texture.clear();
-    for (var i = 0; i < max; i++)
+    for (var i = 0; i < numberOfStars; i++)
     {
         var perspective = distance / (distance - zz[i]);
         var x = game.world.centerX + xx[i] * perspective;
@@ -169,6 +168,7 @@ demo.level1.prototype = {
     boom.killOnComplete=true;
     boomEffect.animations.play('boomEffect', 14, false);
     deadSound.play('dead');
+    highscore = highscore + 100;
   }
 };
 
