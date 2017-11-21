@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme;
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion;
 var bulletvelocity = 700, nextFire = 0, fireRate = 300;
 var speed = 6;
 var centerX = 800/2;
@@ -72,13 +72,14 @@ demo.level1.prototype = {
     enemyGroup = game.add.group();
     enemyGroup.enableBody = true;
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE;
-    game.time.events.loop(5000, this.makeEnemies, this);
+    game.time.events.loop(10000, this.makeEnemies, this);
   },
 
   makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs');
     }
+    motion = Math.random();
     enemyGroup.forEach(this.moveEnemy);
     enemyGroup.setAll('anchor.y', 0.5);
     enemyGroup.setAll('anchor.x', 0.5);
@@ -88,8 +89,8 @@ demo.level1.prototype = {
   },
   
   moveEnemy: function (it) {
-    if (Math.random() > 0.5) {
-      game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeOut', true, 0, -1, true);
+    if (motion > 0.5) {
+      game.add.tween(it).to({x: 50}, 2500, 'Elastic.easeOut', true, 0, -1, true);
     }
     else {
       game.add.tween(it).to({x: 50, y: ship.y}, 2500, 'Linear', true, 0, -1, true);
