@@ -68,32 +68,34 @@ demo.level1.prototype = {
     ship.body.gravity.x = -1000;
     ship.body.bounce.x = 0.3;
     ship.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    
     cursors = game.input.keyboard.createCursorKeys();
-    
     enemyGroup = game.add.group();
     enemyGroup.enableBody = true;
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE;
-    
+    game.time.events.loop(5000, this.makeEnemies, this);
+  },
+
+  makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs');
     }
-    
     enemyGroup.forEach(this.moveEnemy);
     enemyGroup.setAll('anchor.y', 0.5);
     enemyGroup.setAll('anchor.x', 0.5);
     enemyGroup.setAll('scale.x', 1.7);
     enemyGroup.setAll('scale.y', 1.7);
+    enemyGroup.forEach(this.rotateEnemy);
   },
   
   moveEnemy: function (it) {
-    game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeOut', true, 0, -1, true);
+    if (Math.random() > 0.5) {
+      game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeOut', true, 0, -1, true);
+    }
+    else {
+      game.add.tween(it).to({x: 50, y: ship.y}, 2500, 'Linear', true, 0, -1, true);
+    }
   },
-  
-  rotateEnemy: function (it) {
-    it.rotation += 0.05;
-  },
-  
+   
   update: function() {
     texture.clear();
     for (var i = 0; i < max; i++)
@@ -108,7 +110,7 @@ demo.level1.prototype = {
         }
         texture.renderXY(star, x, y);
     }
-    enemyGroup.forEach(this.rotateEnemy);
+    
     ship.animations.play('fly', 30, true);
     if (cursors.left.isDown) {
       ship.body.velocity.x = -400;
@@ -140,6 +142,10 @@ demo.level1.prototype = {
       bullet.anchor.setTo(0.5, 0.5);
       shootSound.play('shoot');
     }
+  },
+
+  rotateEnemy: function (it) {
+    it.rotation += 0.05;
   },
   
   gameOver: function(e) {
