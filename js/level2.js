@@ -1,39 +1,35 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion, highscore = 0, theme1playing = false;
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion, highscore = 0, theme1playing = false, theme2playing = false;
 var bulletvelocity = 700, nextFire = 0, fireRate = 300
 var speed = 6
 var centerX = 800 / 2
 var centerY = 600 / 2
 var distance = 300
 var speed = 6
-var star
-var texture
-var numberOfStars = 50
-var xx = [], yy = [], zz = []
+var theme2
 
-demo.level1 = function () {}
-demo.level1.prototype = {
+demo.level2 = function () {}
+demo.level2.prototype = {
   preload: function () {
     game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 65)
-    game.load.spritesheet('vhs', './assets/sprites/vhs.png', 85, 65)
+    game.load.spritesheet('windows', './assets/sprites/windows.png', 200, 100)
     game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22)
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
-    game.load.image('bg', './assets/backgrounds/space.png')
+    game.load.image('sky', 'assets/backgrounds/underwater3.png');
+	game.load.spritesheet('rain', 'assets/effects/rain.png', 17, 17);
     game.load.image('star', './assets/sprites/star.png')
     game.load.audio('shootSound', 'assets/sounds/shoot.wav')
     game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav')
-    game.load.audio('theme1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3')
+    game.load.audio('theme2', 'assets/bgm/Sycamore_Drive_-_04_-_Ocean_Breeze.mp3')
   },
   create: function () {
-    game.stage.backgroundColor = '#800080'
+    game.stage.backgroundColor = '#000000'
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    theme = game.add.audio('theme1', 0.3, true)
-    if (!theme1playing) {
-      if (theme2) {
-        theme2.stop()
-      }
-      theme.play()
-      theme1playing = true
+    theme2 = game.add.audio('theme2', 0.3, true)
+    if (!theme2playing) {
+      theme.stop()
+      theme2.play()
+      theme2playing = true
     }
     shootSound = game.add.audio('shootSound')
     shootSound.addMarker('shoot', 0, 2)
@@ -41,19 +37,23 @@ demo.level1.prototype = {
     deadSound.addMarker('dead', 0, 2)
     game.world.setBounds(0, 0, 800, 600)
 
-    // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-    // var bg = game.add.sprite(0, 0, 'bg');
-    star = game.make.sprite(0, 0, 'star')
-    texture = game.add.renderTexture(800, 600, 'texture')
+	game.add.image(0, 0, 'sky');
 
-    game.add.sprite(0, 0, texture)
+	var emitter = game.add.emitter(game.world.centerX, 0, 400);
 
-    for (var i = 0; i < numberOfStars; i++) {
-      xx[i] = Math.floor(Math.random() * 800) - 400
-      yy[i] = Math.floor(Math.random() * 600) - 300
-      zz[i] = Math.floor(Math.random() * 1700) - 100
-    }
+	emitter.width = game.world.width;
+	// emitter.angle = 30; // uncomment to set an angle for the rain.
 
+	emitter.makeParticles('rain');
+	emitter.minParticleScale = 0.1;
+	emitter.maxParticleScale = 0.5;
+	emitter.setYSpeed(300, 500);
+	emitter.setXSpeed(-5, 5);
+	emitter.minRotation = 0;
+	emitter.maxRotation = 0;
+
+	emitter.start(false, 1600, 5, 0);
+    
     bullets = game.add.group()
     bullets.enableBody = true
     bullets.physicsBodyType = Phaser.Physics.ARCADE
@@ -76,42 +76,25 @@ demo.level1.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(10000, this.makeEnemies, this)
+    game.time.events.loop(2000, this.makeEnemies, this)
   },
 
   makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
-      enemyGroup.create(700, 150 * i + 100, 'vhs')
+      enemyGroup.create(200 * Math.random() * 5 + 100, 0, 'windows')
     }
-    motion = Math.random()
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
-    enemyGroup.setAll('scale.x', 1.7)
-    enemyGroup.setAll('scale.y', 1.7)
+    enemyGroup.setAll('scale.x', 0.5)
+    enemyGroup.setAll('scale.y', 0.5)
   },
 
   moveEnemy: function (it) {
-    if (motion > 0.5) {
-      game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeIn', true, 0, -1, true)
-    } else {
-      game.add.tween(it).to({x: ship.x, y: ship.y}, 2500, 'Linear', true, 0, -1, true)
-    }
+      game.add.tween(it).to({y: 700}, 3500, 'Linear', true, 0, -1, true)
   },
 
   update: function () {
-    texture.clear()
-    for (var i = 0; i < numberOfStars; i++) {
-      var perspective = distance / (distance - zz[i])
-      var x = game.world.centerX + xx[i] * perspective
-      var y = game.world.centerY + yy[i] * perspective
-      zz[i] += speed
-      if (zz[i] > 300) {
-        zz[i] -= 600
-      }
-      texture.renderXY(star, x, y)
-    }
-
     ship.animations.play('fly', 30, true)
     if (cursors.left.isDown) {
       ship.body.velocity.x = -400
@@ -140,7 +123,7 @@ demo.level1.prototype = {
       bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
       bullet.animations.play('shoot', 14, true)
       bullet.body.velocity.x = 500
-      bullet.anchor.setTo(0.5, 0.5)
+      bullet.anchor.setTo(0.4, 0.4)
       shootSound.play('shoot')
     }
   },
@@ -169,9 +152,6 @@ demo.level1.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 1000) {
-      changeState('level2')
-    }
   }
 }
 
