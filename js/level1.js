@@ -90,9 +90,9 @@ demo.level1.prototype = {
 
   moveEnemy: function (it) {
     if (motion > 0.5) {
-      game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeOut', true, 0, -1, true)
+      game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeIn', true, 0, -1, true)
     } else {
-      game.add.tween(it).to({x: 50, y: ship.y}, 2500, 'Linear', true, 0, -1, true)
+      game.add.tween(it).to({x: ship.x, y: ship.y}, 2500, 'Linear', true, 0, -1, true)
     }
   },
 
