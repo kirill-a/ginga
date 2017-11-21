@@ -86,12 +86,11 @@ demo.level1.prototype = {
     enemyGroup.setAll('anchor.x', 0.5)
     enemyGroup.setAll('scale.x', 1.7)
     enemyGroup.setAll('scale.y', 1.7)
-    enemyGroup.forEach(this.rotateEnemy)
   },
 
   moveEnemy: function (it) {
     if (motion > 0.5) {
-      game.add.tween(it).to({x: 50}, 2500, 'Elastic.easeOut', true, 0, -1, true)
+      game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeOut', true, 0, -1, true)
     } else {
       game.add.tween(it).to({x: 50, y: ship.y}, 2500, 'Linear', true, 0, -1, true)
     }
@@ -126,6 +125,8 @@ demo.level1.prototype = {
     }
     game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
+
+    enemyGroup.forEach(this.rotateEnemy)
   },
 
   fire: function () {
