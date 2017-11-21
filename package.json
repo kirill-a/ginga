@@ -16,7 +16,12 @@
     "url": "https://github.com/kirill-a/ginga/issues"
   },
   "homepage": "https://github.com/kirill-a/ginga#readme",
-  "dependencies": {
-    "http-server": "^0.10.0"
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "http-server": "^0.10.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }
