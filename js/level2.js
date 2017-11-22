@@ -39,33 +39,37 @@ demo.level2.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(2000, this.makeEnemies, this)
+    game.time.events.loop(1100, this.makeEnemies, this)
   },
 
   makeEnemies: function () {
-    for (var i = 0; i < 7; i++) {
-      enemyGroup.create(200 * Math.random() * 5 + 100, 0, 'windows')
+    for (var i = 0; i < 3; i++) {
+      enemyGroup.create(Math.random() * 800, 0, 'windows')
     }
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
-    enemyGroup.setAll('scale.x', 0.5)
-    enemyGroup.setAll('scale.y', 0.5)
+    enemyGroup.setAll('scale.x', 0.3)
+    enemyGroup.setAll('scale.y', 0.3)
   },
 
   moveEnemy: function (it) {
-    var tween = game.add.tween(it).to({y: 700}, 3500, 'Linear', true, 0, -1, true)
+    it.body.gravity.y = 500;
+    it.body.collideWorldBounds = true
+    it.body.bounce.y = 0.3
+    it.body.drag = 200
+    game.physics.enable(it)
   },
 
   update: function () {
     ship.animations.play('fly', 30, true)
     movementShip(ship)
+    game.physics.arcade.collide(enemyGroup)
     game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
-    enemyGroup.forEach(this.rotateEnemy)
   },
 
   fire: function () {
@@ -79,10 +83,6 @@ demo.level2.prototype = {
       bullet.anchor.setTo(0.4, 0.4)
       shootSound.play('shoot')
     }
-  },
-
-  rotateEnemy: function (it) {
-    it.rotation += 0.05
   },
 
   gameOver: function (e) {
