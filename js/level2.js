@@ -4,14 +4,14 @@ var nextFire = 0
 demo.level2 = function () {}
 demo.level2.prototype = {
   preload: function () {
-    game.load.spritesheet('windows', './assets/sprites/windows.png', 200, 100)
+    game.load.spritesheet('windows', './assets/sprites/windows.png', 186, 94)
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
     game.load.image('sky', 'assets/backgrounds/underwater3.png')
     game.load.spritesheet('rain', 'assets/effects/rain.png', 17, 17)
     game.load.audio('bgm2', 'assets/bgm/Sycamore_Drive_-_04_-_Ocean_Breeze.mp3')
   },
   create: function () {
-    bgm2 = game.add.audio('bgm2', 0.3, true)
+    bgm2 = game.add.audio('bgm2', 0.4, true)
     bgm2.play()
 
     game.add.image(0, 0, 'sky')
@@ -43,7 +43,7 @@ demo.level2.prototype = {
   },
 
   makeEnemies: function () {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       enemyGroup.create(Math.random() * 800, 0, 'windows')
     }
     enemyGroup.forEach(this.moveEnemy)

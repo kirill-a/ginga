@@ -9,7 +9,7 @@ var xx = [], yy = [], zz = []
 demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {
-    game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 65)
+    game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 62)
     game.load.spritesheet('vhs', './assets/sprites/vhs.png', 70, 100)
     game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22)
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
@@ -22,7 +22,7 @@ demo.level1.prototype = {
   create: function () {
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
-    bgm1 = game.add.audio('bgm1', 0.3, true)
+    bgm1 = game.add.audio('bgm1', 0.4, true)
     bgm1.play()
     shootSound = game.add.audio('shootSound')
     shootSound.addMarker('shoot', 0, 2)
@@ -142,7 +142,7 @@ demo.level1.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 5000) {
+    if (highscore > 100) {
       bgm1.stop()
       changeState('level2')
     }
