@@ -1,4 +1,3 @@
-var gameOverTheme
 demo.gameOver = function () {}
 demo.gameOver.prototype = {
   preload: function () {},
@@ -11,11 +10,8 @@ demo.gameOver.prototype = {
   },
   update: function () {
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      if (theme2) {
-        theme2.stop()
-      }
-      changeState('level1')
       highscore = 0
+      changeState('level1')
     }
   }
 }

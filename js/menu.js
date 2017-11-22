@@ -1,4 +1,5 @@
 var demo = {}
+
 WebFontConfig = {
   google: { families: [ 'Candal' ] }
 }
@@ -25,3 +26,7 @@ function startFromBeginning () {
     changeState('level1')
   }
 };
+
+function changeState (stateName) {
+  game.state.start(stateName)
+}

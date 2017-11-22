@@ -1,12 +1,8 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, filter, sprite, boomEffect, deadSound, theme, motion, highscore = 0, theme1playing = false;
-var bulletvelocity = 700, nextFire = 0, fireRate = 300
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion
+var bulletvelocity = 700, nextFire = 0, fireRate = 300, highscore = 0
 var speed = 6
-var centerX = 800 / 2
-var centerY = 600 / 2
 var distance = 300
-var speed = 6
-var star
-var texture
+var star, texture
 var numberOfStars = 50
 var xx = [], yy = [], zz = []
 
@@ -21,20 +17,13 @@ demo.level1.prototype = {
     game.load.image('star', './assets/sprites/star.png')
     game.load.audio('shootSound', 'assets/sounds/shoot.wav')
     game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav')
-    game.load.audio('theme1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3')
+    game.load.audio('bgm1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3')
   },
   create: function () {
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
-
-    theme = game.add.audio('theme1', 0.3, true)
-    if (!theme1playing) {
-      if (theme2) {
-        theme2.stop()
-      }
-      theme.play()
-      theme1playing = true
-    }
+    bgm1 = game.add.audio('bgm1', 0.3, true)
+    bgm1.play()
     shootSound = game.add.audio('shootSound')
     shootSound.addMarker('shoot', 0, 2)
     deadSound = game.add.audio('deadSound')
@@ -63,7 +52,7 @@ demo.level1.prototype = {
     bullets.setAll('anchor.y', 0.5)
     bullets.setAll('scale.x', 0.6)
     bullets.setAll('scale.y', 0.6)
-    ship = game.add.sprite(centerX / 2, centerY, 'ship')
+    ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
     ship.anchor.setTo(0.5, 0.5)
     // ship.scale.setTo(1.5, 1.5);
 
@@ -76,7 +65,7 @@ demo.level1.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(10000, this.makeEnemies, this)
+    game.time.events.loop(8000, this.makeEnemies, this)
   },
 
   makeEnemies: function () {
@@ -157,6 +146,7 @@ demo.level1.prototype = {
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
+    bgm1.stop()
     changeState('gameOver')
   },
 
@@ -169,12 +159,9 @@ demo.level1.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 1000) {
+    if (highscore > 2000) {
+      bgm1.stop()
       changeState('level2')
     }
   }
 }
-
-function changeState (stateName) {
-  game.state.start(stateName)
-};
