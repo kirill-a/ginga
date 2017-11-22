@@ -1,5 +1,5 @@
 var ship, bullet, bullets, enemyGroup, cursors, boomEffect
-var bulletvelocity = 700, nextFire = 0, fireRate = 300
+var nextFire = 0
 
 demo.level2 = function () {}
 demo.level2.prototype = {
@@ -36,7 +36,6 @@ demo.level2.prototype = {
     bullets.setAll('scale.y', 0.6)
     ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
     ship.anchor.setTo(0.5, 0.5)
-    // ship.scale.setTo(1.5, 1.5);
 
     game.physics.enable(ship)
     ship.body.collideWorldBounds = true
@@ -67,14 +66,14 @@ demo.level2.prototype = {
 
   update: function () {
     ship.animations.play('fly', 30, true)
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
       ship.body.velocity.x = -400
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown  || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
       ship.body.velocity.x = 400
     } else { ship.body.velocity.x = 0 }
-    if (cursors.up.isDown) {
+    if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
       ship.body.velocity.y = -300
-    } else if (cursors.down.isDown) {
+    } else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
       ship.body.velocity.y = 300
     } else { ship.body.velocity.y = 0 }
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
@@ -88,7 +87,7 @@ demo.level2.prototype = {
 
   fire: function () {
     if (game.time.now > nextFire) {
-      nextFire = game.time.now + fireRate
+      nextFire = game.time.now + 300
       bullet = bullets.getFirstDead()
       bullet.reset(ship.x, ship.y)
       bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
