@@ -41,14 +41,7 @@ demo.level1.prototype = {
       zz[i] = Math.floor(Math.random() * 1700) - 100
     }
     bullets = game.add.group()
-    bullets.enableBody = true
-    bullets.physicsBodyType = Phaser.Physics.ARCADE
-    bullets.createMultiple(50, 'bullet')
-    bullets.setAll('checkWorldBounds', true)
-    bullets.setAll('outOfBoundsKill', true)
-    bullets.setAll('anchor.y', 0.5)
-    bullets.setAll('scale.x', 0.6)
-    bullets.setAll('scale.y', 0.6)
+    shootBullets(bullets)
     
     ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
     ship.anchor.setTo(0.5, 0.5)
@@ -100,22 +93,12 @@ demo.level1.prototype = {
     }
 
     ship.animations.play('fly', 30, true)
-    if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
-      ship.body.velocity.x = -400
-    } else if (cursors.right.isDown  || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
-      ship.body.velocity.x = 400
-    } else { ship.body.velocity.x = 0 }
-    if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
-      ship.body.velocity.y = -300
-    } else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
-      ship.body.velocity.y = 300
-    } else { ship.body.velocity.y = 0 }
+    movementShip(ship)
+    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
-    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
-    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-
     enemyGroup.forEach(this.rotateEnemy)
   },
 
@@ -157,9 +140,33 @@ demo.level1.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 2000) {
+    if (highscore > 100) {
       bgm1.stop()
       changeState('level2')
     }
   }
+}
+
+function movementShip(ship) {
+  if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
+    ship.body.velocity.x = -400
+  } else if (cursors.right.isDown  || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
+    ship.body.velocity.x = 400
+  } else { ship.body.velocity.x = 0 }
+  if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
+    ship.body.velocity.y = -300
+  } else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
+    ship.body.velocity.y = 300
+  } else { ship.body.velocity.y = 0 }
+}
+
+function shootBullets(bullets) {
+  bullets.enableBody = true
+  bullets.physicsBodyType = Phaser.Physics.ARCADE
+  bullets.createMultiple(50, 'bullet')
+  bullets.setAll('checkWorldBounds', true)
+  bullets.setAll('outOfBoundsKill', true)
+  bullets.setAll('anchor.y', 0.5)
+  bullets.setAll('scale.x', 0.6)
+  bullets.setAll('scale.y', 0.6)
 }

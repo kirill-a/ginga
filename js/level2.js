@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, cursors, boomEffect
+var ship, bullet, bullets, enemyGroup, boomEffect
 var nextFire = 0
 
 demo.level2 = function () {}
@@ -26,14 +26,7 @@ demo.level2.prototype = {
     emitter.maxRotation = 0
     emitter.start(false, 1600, 5, 0)
     bullets = game.add.group()
-    bullets.enableBody = true
-    bullets.physicsBodyType = Phaser.Physics.ARCADE
-    bullets.createMultiple(50, 'bullet')
-    bullets.setAll('checkWorldBounds', true)
-    bullets.setAll('outOfBoundsKill', true)
-    bullets.setAll('anchor.y', 0.5)
-    bullets.setAll('scale.x', 0.6)
-    bullets.setAll('scale.y', 0.6)
+    shootBullets(bullets)
     ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
     ship.anchor.setTo(0.5, 0.5)
 
@@ -50,7 +43,7 @@ demo.level2.prototype = {
   },
 
   makeEnemies: function () {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 7; i++) {
       enemyGroup.create(200 * Math.random() * 5 + 100, 0, 'windows')
     }
     enemyGroup.forEach(this.moveEnemy)
@@ -61,27 +54,18 @@ demo.level2.prototype = {
   },
 
   moveEnemy: function (it) {
-    game.add.tween(it).to({y: 700}, 3500, 'Linear', true, 0, -1, true)
+    var tween = game.add.tween(it).to({y: 700}, 3500, 'Linear', true, 0, -1, true)
+    tween.onComplete(this.removeEnemy(it), this)
   },
 
   update: function () {
     ship.animations.play('fly', 30, true)
-    if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
-      ship.body.velocity.x = -400
-    } else if (cursors.right.isDown  || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
-      ship.body.velocity.x = 400
-    } else { ship.body.velocity.x = 0 }
-    if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
-      ship.body.velocity.y = -300
-    } else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
-      ship.body.velocity.y = 300
-    } else { ship.body.velocity.y = 0 }
+    movementShip(ship)
+    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
-    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
-    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-
     enemyGroup.forEach(this.rotateEnemy)
   },
 
@@ -96,6 +80,10 @@ demo.level2.prototype = {
       bullet.anchor.setTo(0.4, 0.4)
       shootSound.play('shoot')
     }
+  },
+
+  removeEnemy: function (it) {
+    it.kill()
   },
 
   rotateEnemy: function (it) {
