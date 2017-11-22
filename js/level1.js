@@ -56,7 +56,7 @@ demo.level1.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(8000, this.makeEnemies, this)
+    game.time.events.loop(5000, this.makeEnemies, this)
   },
 
   makeEnemies: function () {
@@ -67,14 +67,16 @@ demo.level1.prototype = {
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
+    enemyGroup.setAll('scale.x', 0.7)
+    enemyGroup.setAll('scale.y', 0.7)
   },
 
   moveEnemy: function (it) {
     it.animations.add('dim', [0, 1, 2, 3])
     if (motion > 0.5) {
-      game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeIn', true, 0, -1, true)
+      game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeIn', true, 0, -1, true)
     } else {
-      game.add.tween(it).to({x: ship.x, y: ship.y}, 2500, 'Linear', true, 0, -1, true)
+      game.add.tween(it).to({x: ship.x, y: ship.y}, 1500, 'Linear', true, 0, -1, true)
     }
   },
 
@@ -140,7 +142,7 @@ demo.level1.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 3000) {
+    if (highscore > 5000) {
       bgm1.stop()
       changeState('level2')
     }
