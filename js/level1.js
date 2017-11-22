@@ -10,7 +10,7 @@ demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {
     game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 65)
-    game.load.spritesheet('vhs', './assets/sprites/vhs.png', 85, 65)
+    game.load.spritesheet('vhs', './assets/sprites/vhs.png', 70, 100)
     game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22)
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
     game.load.image('bg', './assets/backgrounds/space.png')
@@ -67,11 +67,10 @@ demo.level1.prototype = {
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
-    enemyGroup.setAll('scale.x', 1.7)
-    enemyGroup.setAll('scale.y', 1.7)
   },
 
   moveEnemy: function (it) {
+    it.animations.add('dim', [0, 1, 2, 3])
     if (motion > 0.5) {
       game.add.tween(it).to({x: 50}, 3000, 'Elastic.easeIn', true, 0, -1, true)
     } else {
@@ -116,6 +115,7 @@ demo.level1.prototype = {
   },
 
   rotateEnemy: function (it) {
+    it.animations.play('dim', 14, true)
     it.rotation += 0.05
   },
 

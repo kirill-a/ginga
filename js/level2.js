@@ -55,7 +55,6 @@ demo.level2.prototype = {
 
   moveEnemy: function (it) {
     var tween = game.add.tween(it).to({y: 700}, 3500, 'Linear', true, 0, -1, true)
-    tween.onComplete(this.removeEnemy(it), this)
   },
 
   update: function () {
@@ -80,10 +79,6 @@ demo.level2.prototype = {
       bullet.anchor.setTo(0.4, 0.4)
       shootSound.play('shoot')
     }
-  },
-
-  removeEnemy: function (it) {
-    it.kill()
   },
 
   rotateEnemy: function (it) {
