@@ -54,7 +54,7 @@ demo.level2.prototype = {
   },
 
   moveEnemy: function (it) {
-    it.body.gravity.y = 500;
+    it.body.gravity.y = 500
     it.body.collideWorldBounds = true
     it.body.bounce.y = 0.3
     it.body.drag = 200

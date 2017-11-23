@@ -9,7 +9,7 @@ demo.menu.prototype = {
     game.load.image('title', './assets/backgrounds/title.png')
   },
   create: function () {
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.add.sprite(0, 0, 'title')
     this.startMessage = game.add.text(game.world.centerX, game.world.centerY + 150,
       'Press Z to start', {fontSize: 25 + 'px', font: 'Candal'})

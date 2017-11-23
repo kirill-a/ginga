@@ -1,10 +1,6 @@
 var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion
-var nextFire = 0, highscore = 0
-var speed = 6
-var distance = 300
+var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
 var star, texture
-var numberOfStars = 50
-var xx = [], yy = [], zz = []
 
 demo.level1 = function () {}
 demo.level1.prototype = {
@@ -146,10 +142,10 @@ demo.level1.prototype = {
   }
 }
 
-function movementShip(ship) {
+function movementShip (ship) {
   if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
     ship.body.velocity.x = -400
-  } else if (cursors.right.isDown  || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
+  } else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
     ship.body.velocity.x = 400
   } else { ship.body.velocity.x = 0 }
   if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
@@ -159,7 +155,7 @@ function movementShip(ship) {
   } else { ship.body.velocity.y = 0 }
 }
 
-function shootBullets(bullets) {
+function shootBullets (bullets) {
   bullets.enableBody = true
   bullets.physicsBodyType = Phaser.Physics.ARCADE
   bullets.createMultiple(50, 'bullet')
