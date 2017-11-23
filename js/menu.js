@@ -5,7 +5,8 @@ WebFontConfig = {
 demo.menu = function () {}
 demo.menu.prototype = {
   preload: function () {
-    game.load.withSyncPoint(this.loadFonts, this)
+    this.load.onLoadComplete.addOnce(this.create, this)
+    game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
     game.load.image('title', './assets/backgrounds/title.png')
   },
   create: function () {
@@ -18,10 +19,6 @@ demo.menu.prototype = {
   },
   update: function () {
     startFromBeginning()
-  },
-
-  loadFonts: function (loader) {
-    game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
   }
 }
 
