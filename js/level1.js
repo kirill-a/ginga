@@ -29,8 +29,6 @@ demo.level1.prototype = {
     deadSound = game.add.audio('deadSound')
     deadSound.addMarker('dead', 0, 2)
     game.world.setBounds(0, 0, 800, 600)
-
-    // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     star = game.make.sprite(0, 0, 'star')
     texture = game.add.renderTexture(800, 600, 'texture')
 
@@ -42,7 +40,6 @@ demo.level1.prototype = {
     }
     bullets = game.add.group()
     shootBullets(bullets)
-    
     ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
     ship.anchor.setTo(0.5, 0.5)
     game.physics.enable(ship)
