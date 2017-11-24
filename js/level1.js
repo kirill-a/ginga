@@ -4,17 +4,7 @@ var star, texture
 
 demo.level1 = function () {}
 demo.level1.prototype = {
-  preload: function () {
-    game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 62)
-    game.load.spritesheet('vhs', './assets/sprites/vhs.png', 70, 100)
-    game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22)
-    game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
-    game.load.image('bg', './assets/backgrounds/space.png')
-    game.load.image('star', './assets/sprites/star.png')
-    game.load.audio('shootSound', 'assets/sounds/shoot.wav')
-    game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav')
-    game.load.audio('bgm1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3')
-  },
+  preload: function () {},
   create: function () {
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
@@ -52,7 +42,29 @@ demo.level1.prototype = {
     game.time.events.loop(5000, this.makeEnemies, this)
   },
 
-  makeEnemies: function () {
+  update: function () {
+    texture.clear()
+    for (var i = 0; i < numberOfStars; i++) {
+      var perspective = distance / (distance - zz[i])
+      var x = game.world.centerX + xx[i] * perspective
+      var y = game.world.centerY + yy[i] * perspective
+      zz[i] += speed
+      if (zz[i] > 300) {
+        zz[i] -= 600
+      }
+      texture.renderXY(star, x, y)
+    }
+    ship.animations.play('fly', 30, true)
+    moveShip(ship)
+    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
+      this.fire()
+    }
+    enemyGroup.forEach(this.rotateEnemy)
+  },
+  
+    makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs')
     }
@@ -71,29 +83,6 @@ demo.level1.prototype = {
     } else {
       game.add.tween(it).to({x: ship.x, y: ship.y}, 1500, 'Linear', true, 0, -1, true)
     }
-  },
-
-  update: function () {
-    texture.clear()
-    for (var i = 0; i < numberOfStars; i++) {
-      var perspective = distance / (distance - zz[i])
-      var x = game.world.centerX + xx[i] * perspective
-      var y = game.world.centerY + yy[i] * perspective
-      zz[i] += speed
-      if (zz[i] > 300) {
-        zz[i] -= 600
-      }
-      texture.renderXY(star, x, y)
-    }
-
-    ship.animations.play('fly', 30, true)
-    movementShip(ship)
-    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
-    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      this.fire()
-    }
-    enemyGroup.forEach(this.rotateEnemy)
   },
 
   fire: function () {
@@ -142,7 +131,7 @@ demo.level1.prototype = {
   }
 }
 
-function movementShip (ship) {
+function moveShip (ship) {
   if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
     ship.body.velocity.x = -400
   } else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
