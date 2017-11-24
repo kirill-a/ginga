@@ -2,7 +2,7 @@
 
 **in development**
 
-Shoot-em-up arcade game
+Shoot-em-up arcade game [Play it on itch.io](https://kirill-a.itch.io/ginga)
 
 ![Ginga](/assets/backgrounds/title.png)
 
