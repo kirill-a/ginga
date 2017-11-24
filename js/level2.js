@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, boomEffect
+var ship, bullet, bullets, enemyGroup, boomEffect, bgm2
 var nextFire = 0
 
 demo.level2 = function () {}

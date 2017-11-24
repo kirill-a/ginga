@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion
+var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion, bgm1
 var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
 var star, texture
 
@@ -63,7 +63,7 @@ demo.level1.prototype = {
     }
     enemyGroup.forEach(this.rotateEnemy)
   },
-  
+
     makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs')

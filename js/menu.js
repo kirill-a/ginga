@@ -23,7 +23,7 @@ demo.menu.prototype = {
     game.load.image('title', './assets/backgrounds/title.png')
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
   },
-  
+
   create: function () {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.add.sprite(0, 0, 'title')
@@ -32,7 +32,7 @@ demo.menu.prototype = {
     this.startMessage.fill = '#ffffff'
     this.startMessage.anchor.set(0.5, 0.5)
   },
-  
+
   update: function () {
     startFromBeginning()
   }
