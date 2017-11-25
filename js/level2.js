@@ -91,14 +91,18 @@ demo.level2.prototype = {
     changeState('gameOver')
   },
 
-  hitGroup: function (e) {
+  hitGroup: function (e, b) {
     boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
-    bullet.kill()
+    b.kill()
     e.kill()
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
+    if (highscore > 10000) {
+      bgm2.stop()
+      changeState('level2')
+    }
   }
 }

@@ -13,19 +13,21 @@ demo.menu.prototype = {
     game.load.spritesheet('windows', './assets/sprites/windows.png', 186, 94)
     game.load.spritesheet('boomEffect', './assets/effects/explosion.png', 80, 80)
     game.load.spritesheet('rain', 'assets/effects/rain.png', 17, 17)
+    game.load.spritesheet('boss', 'assets/sprites/boss.png', 174, 359)
     game.load.image('bg', './assets/backgrounds/space.png')
     game.load.image('star', './assets/sprites/star.png')
     game.load.audio('shootSound', 'assets/sounds/shoot.wav')
     game.load.audio('deadSound', 'assets/sounds/dark-shoot.wav')
     game.load.audio('bgm1', 'assets/bgm/Sycamore_Drive_-_05_-_Slumber.mp3')
     game.load.audio('bgm2', 'assets/bgm/Sycamore_Drive_-_04_-_Ocean_Breeze.mp3')
+    game.load.audio('bgm3', 'assets/bgm/Sycamore_Drive_-_03_-_The_Waves_Call_Her_Name.mp3')
     game.load.image('sky', 'assets/backgrounds/underwater3.png')
     game.load.image('title', './assets/backgrounds/title.png')
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
   },
 
   create: function () {
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+    //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.add.sprite(0, 0, 'title')
     this.startMessage = game.add.text(game.world.centerX, game.world.centerY + 150,
       'Press Z to start', {fontSize: 25 + 'px', font: 'Candal'})

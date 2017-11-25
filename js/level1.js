@@ -43,6 +43,10 @@ demo.level1.prototype = {
   },
 
   update: function () {
+    if (game.input.keyboard.isDown(Phaser.Keyboard.T)) {
+      bgm1.stop()
+      changeState('level3')
+    }
     texture.clear()
     for (var i = 0; i < numberOfStars; i++) {
       var perspective = distance / (distance - zz[i])
@@ -64,7 +68,7 @@ demo.level1.prototype = {
     enemyGroup.forEach(this.rotateEnemy)
   },
 
-    makeEnemies: function () {
+  makeEnemies: function () {
     for (var i = 0; i < 5; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs')
     }
@@ -115,16 +119,16 @@ demo.level1.prototype = {
     changeState('gameOver')
   },
 
-  hitGroup: function (e) {
+  hitGroup: function (e, b) {
     boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
-    bullet.kill()
+    b.kill()
     e.kill()
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 5000) {
+    if (highscore > 3000) {
       bgm1.stop()
       changeState('level2')
     }
