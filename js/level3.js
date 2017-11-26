@@ -3,13 +3,7 @@ var nextFire = 0, lives = 100
 
 demo.level3 = function () {}
 demo.level3.prototype = {
-  preload: function () {
-    game.load.image('cyberglow', 'assets/textures/cyberglow.png');
-    game.load.image('tron', 'assets/textures/tron.png');
-    game.load.image('metal', 'assets/textures/metal.png');
-    game.load.image('factory', 'assets/textures/factory.png');
-    game.load.image('ooze', 'assets/textures/ooze.png');
-  },
+  preload: function () {},
   create: function () {
     bgm3 = game.add.audio('bgm3', 0.4, true)
     bgm3.play()
@@ -49,7 +43,7 @@ demo.level3.prototype = {
     ];
 
     //  Texture must be power-of-two sized or the filter will break
-    sprite = game.add.sprite(0, 0, 'cyberglow');
+    sprite = game.add.sprite(0, 0, 'guts');
     sprite.width = 800;
     sprite.height = 600;
 
@@ -83,7 +77,12 @@ demo.level3.prototype = {
     enemy.anchor.setTo(0.5, 0.5)
     enemy.physicsBodyType = Phaser.Physics.ARCADE
     enemy.animations.add('move', [0, 1, 2, 3, 4, 5, 6])
-    game.add.tween(enemy).to({x: 50, y: 300}, 15000, 'Linear', true, 0, -1, true)
+    game.add.tween(enemy).to({x: 100, y: 300}, 5000, 'Linear', true, 0, -1, true)
+    enemyGroup = game.add.group()
+    enemyGroup.enableBody = true
+    enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
+    game.time.events.loop(5000, this.makeEnemies, this)
+    enemyGroup.forEach(this.moveEnemies)
   },
 
   update: function () {
@@ -94,9 +93,30 @@ demo.level3.prototype = {
     game.physics.arcade.collide(enemy)
     game.physics.arcade.overlap(enemy, bullets, this.hitGroup)
     game.physics.arcade.overlap(enemy, ship, this.gameOver)
+    game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
+    enemyGroup.forEach(this.rotateEnemy)
+  },
+  
+  moveEnemies: function (it) {
+    it.animations.add('smile', [0, 1, 2])
+  },
+  
+  makeEnemies: function () {
+    enemyGroup.create(enemy.x, enemy.y, 'bossFire')
+    enemyGroup.setAll('anchor.y', 0.5)
+    enemyGroup.setAll('anchor.x', 0.5)
+    enemyGroup.setAll('scale.x', 0.7)
+    enemyGroup.setAll('scale.y', 0.7)
+  },
+
+  rotateEnemy: function (it) {
+    game.add.tween(it).to({x: ship.x, y: ship.y}, 500, 'Linear', true, 0, -1, false)
+    //it.body.gravity.x = 500
+    it.animations.play('smile', 4, true)
+    it.rotation += 0.05
   },
 
   fire: function () {
@@ -129,6 +149,7 @@ demo.level3.prototype = {
     b.kill()
     if (lives == 0) {
       e.kill()
+      enemyGroup.kill()
     }
     else {
       lives = lives - 1
