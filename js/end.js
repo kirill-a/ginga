@@ -4,7 +4,7 @@ demo.end.prototype = {
   create: function () {
     game.stage.backgroundColor = '#28b463'
     var emitter = game.add.emitter(game.world.centerX, 500, 2000)
-    emitter.makeParticles(['star'], 0, 5000, false, true)
+    emitter.makeParticles(['star'], 0, 2000, false, true)
     emitter.maxParticleSpeed.set(300, -300)
     emitter.minParticleSpeed.set(-300, -100)
     emitter.gravity = 300
