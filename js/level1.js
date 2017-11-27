@@ -1,5 +1,5 @@
 var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion, bgm1
-var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
+var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 3, currentLevel = 1
 var star, texture
 
 demo.level1 = function () {}
@@ -45,7 +45,7 @@ demo.level1.prototype = {
   update: function () {
     if (game.input.keyboard.isDown(Phaser.Keyboard.T)) {
       bgm1.stop()
-      changeState('level3')
+      changeState('end')
     }
     texture.clear()
     for (var i = 0; i < numberOfStars; i++) {

@@ -4,8 +4,6 @@
 
 Shoot-em-up arcade game [Play it on itch.io](https://kirill-a.itch.io/ginga)
 
-![Ginga](/assets/backgrounds/title.png)
-
 Built with JS and Phaser.js.
 
 Google Fonts are used.

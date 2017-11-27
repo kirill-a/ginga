@@ -7,7 +7,7 @@ demo.level2.prototype = {
   create: function () {
     bgm2 = game.add.audio('bgm2', 0.4, true)
     bgm2.play()
-
+    currentLevel = 2
     game.add.image(0, 0, 'sky')
     var emitter = game.add.emitter(game.world.centerX, 0, 400)
     emitter.width = game.world.width
