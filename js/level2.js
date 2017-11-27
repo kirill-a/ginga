@@ -102,7 +102,7 @@ demo.level2.prototype = {
     highscore = highscore + 100
     if (highscore > 10000) {
       bgm2.stop()
-      changeState('level2')
+      changeState('level3')
     }
   }
 }
