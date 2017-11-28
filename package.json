@@ -4,7 +4,10 @@
   "description": "**in development**",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/light-server/bin/light-server -s .",
+    "lint": "node_modules/eslint/bin/eslint.js js/*.js --fix",
+    "minify": "node_modules\/uglify-js\/bin\/uglifyjs js\/menu.js js\/level1.js js\/level2.js js\/level3.js js\/gameOver.js js\/end.js js\/main.js -o min.js --compress"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "uglify-js": "^3.2.0"
   }
 }

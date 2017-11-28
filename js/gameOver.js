@@ -6,8 +6,7 @@ demo.gameOver.prototype = {
     if (continueCount > 0) {
       this.gameOverMessage = game.add.text(game.world.centerX, game.world.centerY,
         'GAME OVER\nYour score is ' + highscore + '\nPress Z to start again\nPress C to continue ' + continueCount)
-    }
-    else {
+    } else {
       this.gameOverMessage = game.add.text(game.world.centerX, game.world.centerY,
         'GAME OVER\nYour score is ' + highscore + '\nPress Z to start again')
     }

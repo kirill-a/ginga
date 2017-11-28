@@ -9,7 +9,7 @@ demo.end.prototype = {
     emitter.minParticleSpeed.set(-300, -100)
     emitter.gravity = 300
     game.time.events.add(2000, function () {
-      emitter.start(false, 5000, 20);
+      emitter.start(false, 5000, 20)
       game.time.events.loop(500, function () {
         if (emitter.on) {
           emitter.on = false
