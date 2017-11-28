@@ -44,10 +44,6 @@ demo.level1.prototype = {
   },
 
   update: function () {
-    if (game.input.keyboard.isDown(Phaser.Keyboard.T)) {
-      bgm1.stop()
-      changeState('end')
-    }
     texture.clear()
     for (var i = 0; i < numberOfStars; i++) {
       var perspective = distance / (distance - zz[i])
