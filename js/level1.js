@@ -6,6 +6,7 @@ demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {},
   create: function () {
+    continueCount = 3
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
     bgm1 = game.add.audio('bgm1', 0.4, true)
