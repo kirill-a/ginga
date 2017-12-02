@@ -1,4 +1,6 @@
-var demo = {}
+var demo = {
+  Prefabs: {}
+}
 WebFontConfig = {
   google: { families: [ 'Candal' ] }
 }

@@ -27,14 +27,8 @@ demo.level1.prototype = {
     }
     bullets = game.add.group()
     shootBullets(bullets)
-    ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
-    ship.anchor.setTo(0.5, 0.5)
-    game.physics.enable(ship)
-
-    ship.body.collideWorldBounds = true
-    ship.body.gravity.x = -1000
-    ship.body.bounce.x = 0.3
-    ship.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
+		game.add.existing(ship);
     cursors = game.input.keyboard.createCursorKeys()
 
     enemyGroup = game.add.group()
@@ -55,8 +49,6 @@ demo.level1.prototype = {
       }
       texture.renderXY(star, x, y)
     }
-    ship.animations.play('fly', 30, true)
-    moveShip(ship)
     game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
@@ -127,22 +119,10 @@ demo.level1.prototype = {
     highscore = highscore + 100
     if (highscore > 3000) {
       bgm1.stop()
+      ship.destroy()
       changeState('level2')
     }
   }
-}
-
-function moveShip (ship) {
-  if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.H)) {
-    ship.body.velocity.x = -400
-  } else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.L)) {
-    ship.body.velocity.x = 400
-  } else { ship.body.velocity.x = 0 }
-  if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.K)) {
-    ship.body.velocity.y = -300
-  } else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
-    ship.body.velocity.y = 300
-  } else { ship.body.velocity.y = 0 }
 }
 
 function shootBullets (bullets) {

@@ -1,4 +1,4 @@
-var ship, bullet, bullets, enemyGroup, boomEffect, bgm2
+var bullet, bullets, enemyGroup, boomEffect, bgm2
 var nextFire = 0
 
 demo.level2 = function () {}
@@ -21,14 +21,8 @@ demo.level2.prototype = {
     emitter.start(false, 1600, 5, 0)
     bullets = game.add.group()
     shootBullets(bullets)
-    ship = game.add.sprite(game.world.centerX / 2, game.world.centerY, 'ship')
-    ship.anchor.setTo(0.5, 0.5)
-
-    game.physics.enable(ship)
-    ship.body.collideWorldBounds = true
-    ship.body.gravity.x = -1000
-    ship.body.bounce.x = 0.3
-    ship.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
+    game.add.existing(ship)
     cursors = game.input.keyboard.createCursorKeys()
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
@@ -56,8 +50,6 @@ demo.level2.prototype = {
   },
 
   update: function () {
-    ship.animations.play('fly', 30, true)
-    moveShip(ship)
     game.physics.arcade.collide(enemyGroup)
     game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
