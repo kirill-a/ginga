@@ -26,7 +26,8 @@ demo.menu.prototype = {
     game.load.audio('bgm2', 'assets/bgm/Sycamore_Drive_-_04_-_Ocean_Breeze.mp3')
     game.load.audio('bgm3', 'assets/bgm/Sycamore_Drive_-_03_-_The_Waves_Call_Her_Name.mp3')
     game.load.image('sky', 'assets/backgrounds/underwater3.png')
-    game.load.image('title', './assets/backgrounds/title.png')
+    game.load.image('title', 'assets/backgrounds/title.png')
+    game.load.image('end', 'assets/backgrounds/ending.jpg')
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
   },
 

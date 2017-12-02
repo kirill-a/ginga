@@ -2,8 +2,8 @@ demo.end = function () {}
 demo.end.prototype = {
   preload: function () {},
   create: function () {
-    game.stage.backgroundColor = '#28b463'
-    var emitter = game.add.emitter(game.world.centerX, 500, 2000)
+    game.add.image(0, 0, 'end')
+    var emitter = game.add.emitter(game.world.centerX, 200, 2000)
     emitter.makeParticles(['star'], 0, 2000, false, true)
     emitter.maxParticleSpeed.set(300, -300)
     emitter.minParticleSpeed.set(-300, -100)
