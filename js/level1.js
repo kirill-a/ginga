@@ -54,9 +54,6 @@ demo.level1.prototype = {
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.T)) {
-      changeState('end')
-    }
     enemyGroup.forEach(this.rotateEnemy)
   },
 
