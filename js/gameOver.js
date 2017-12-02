@@ -15,7 +15,7 @@ demo.gameOver.prototype = {
     this.gameOverMessage.font = 'Candal'
   },
   update: function () {
-    if (game.input.keyboard.isDown(Phaser.Keyboard.C)) {
+    if (game.input.keyboard.isDown(Phaser.Keyboard.C) && continueCount != 0) {
       highscore = 0
       continueCount -= 1
       changeState('level' + currentLevel)

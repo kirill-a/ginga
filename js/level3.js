@@ -1,5 +1,5 @@
 var bullet, bullets, enemy, enemyGroup, boomEffect, bgm3, filter, sprite
-var nextFire = 0, lives = 100
+var nextFire = 0, lives
 
 demo.level3 = function () {}
 demo.level3.prototype = {
@@ -8,7 +8,7 @@ demo.level3.prototype = {
     currentLevel = 3
     bgm3 = game.add.audio('bgm3', 0.4, true)
     bgm3.play()
-
+    lives = 100
     var fragmentSrc = [
 
       'precision mediump float;',
