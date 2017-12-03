@@ -76,7 +76,7 @@ demo.level3.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(5000, this.makeEnemies, this)
+    game.time.events.loop(10000, this.makeEnemies, this)
     enemyGroup.forEach(this.moveEnemies)
   },
 
