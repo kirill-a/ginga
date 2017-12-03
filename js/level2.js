@@ -92,7 +92,7 @@ demo.level2.prototype = {
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     highscore = highscore + 100
-    if (highscore > 10000) {
+    if (highscore > 8000) {
       bgm2.stop()
       changeState('level3')
     }
