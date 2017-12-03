@@ -4,10 +4,12 @@ var demo = {
 WebFontConfig = {
   google: { families: [ 'Candal' ] }
 }
-demo.menu = function () {}
+demo.menu = function () {
+  this.ready = false
+}
 demo.menu.prototype = {
   preload: function () {
-    this.load.onLoadComplete.addOnce(this.create, this)
+    this.load.onLoadComplete.addOnce(this.onLoadComplete, this)
     game.load.spritesheet('ship', './assets/sprites/ship.png', 85, 62)
     game.load.spritesheet('vhs', './assets/sprites/vhs.png', 70, 100)
     game.load.spritesheet('bullet', './assets/sprites/bullet.png', 64, 22)
@@ -31,11 +33,17 @@ demo.menu.prototype = {
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js')
   },
 
+  onLoadComplete: function(){
+		this.ready = true
+	},
+
   create: function () {
     // game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.add.sprite(0, 0, 'title')
-    this.startMessage = game.add.text(game.world.centerX, game.world.centerY + 150,
-      'Press Z to start', {fontSize: 25 + 'px', font: 'Candal'})
+    if (this.ready) {
+      this.startMessage = game.add.text(game.world.centerX, game.world.centerY + 150,
+        'Press Z to start', {fontSize: 25 + 'px', font: 'Candal'})
+    }
     this.startMessage.fill = '#ffffff'
     this.startMessage.anchor.set(0.5, 0.5)
   },
