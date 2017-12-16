@@ -49,12 +49,23 @@ demo.level1.prototype = {
       }
       texture.renderXY(star, x, y)
     }
-    game.physics.arcade.overlap(enemyGroup, bullets, this.hitGroup)
+    game.physics.arcade.overlap(enemyGroup, bullets, hitGroup)
+    if (highscore > 3000) {
+      bgm1.stop()
+      ship.destroy()
+      changeState('level2')
+    }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
     enemyGroup.forEach(this.rotateEnemy)
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)) {
+      changeState('level3')
+    }
+    if (game.input.keyboard.isDown(Phaser.Keyboard.U)) {
+      changeState('level4')
+    }
   },
 
   makeEnemies: function () {
@@ -107,22 +118,17 @@ demo.level1.prototype = {
     bgm1.stop()
     changeState('gameOver')
   },
+}
 
-  hitGroup: function (e, b) {
-    boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
-    b.kill()
-    e.kill()
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
-    highscore = highscore + 100
-    if (highscore > 3000) {
-      bgm1.stop()
-      ship.destroy()
-      changeState('level2')
-    }
-  }
+function hitGroup (e, b) {
+  boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
+  b.kill()
+  e.kill()
+  boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+  boom.killOnComplete = true
+  boomEffect.animations.play('boomEffect', 14, false)
+  deadSound.play('dead')
+  highscore = highscore + 100
 }
 
 function shootBullets (bullets) {

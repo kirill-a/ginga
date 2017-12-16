@@ -77,7 +77,6 @@ demo.level3.prototype = {
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
     game.time.events.loop(10000, this.makeEnemies, this)
-    enemyGroup.forEach(this.moveEnemies)
   },
 
   update: function () {
@@ -93,12 +92,14 @@ demo.level3.prototype = {
     enemyGroup.forEach(this.rotateEnemy)
   },
 
-  moveEnemies: function (it) {
+  moveEnemy: function (it) {
     it.animations.add('smile', [0, 1, 2])
+    game.add.tween(it).to({x: ship.x, y: ship.y}, 1500, 'Linear', true, 0, -1, true)
   },
 
   makeEnemies: function () {
     enemyGroup.create(enemy.x, enemy.y, 'bossFire')
+    enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
     enemyGroup.setAll('scale.x', 0.7)
@@ -108,7 +109,7 @@ demo.level3.prototype = {
   rotateEnemy: function (it) {
     game.add.tween(it).to({x: ship.x, y: ship.y}, 500, 'Linear', true, 0, -1, false)
     // it.body.gravity.x = 500
-    it.animations.play('smile', 4, true)
+    it.animations.play('smile', 2, true)
     it.rotation += 0.05
   },
 
@@ -144,7 +145,11 @@ demo.level3.prototype = {
       e.kill()
       enemyGroup.kill()
       bgm3.stop()
-      changeState('end')
+      if (continueCount == 3) {
+        changeState('level4')
+      } else {
+          changeState('end')
+      }
     } else {
       lives = lives - 1
     }

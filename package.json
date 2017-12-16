@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/light-server/bin/light-server -s .",
     "lint": "node_modules/eslint/bin/eslint.js js/*.js --fix",
-    "minify": "node_modules\/uglify-js\/bin\/uglifyjs js\/menu.js js\/prefabs\/ship.js  js\/level1.js js\/level2.js js\/level3.js js\/gameOver.js js\/end.js js\/main.js -o min.js --compress"
+    "minify": "node_modules\/uglify-js\/bin\/uglifyjs js\/menu.js js\/prefabs\/ship.js  js\/level1.js js\/level2.js js\/level3.js js\/level4.js js\/gameOver.js js\/end.js js\/main.js -o min.js --compress"
   },
   "repository": {
     "type": "git",
