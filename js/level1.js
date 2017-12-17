@@ -1,12 +1,12 @@
 var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion, bgm1
-var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 3, currentLevel = 1
+var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel = 1
 var star, texture
 
 demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {},
   create: function () {
-    continueCount = 3
+    continueCount = 9
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
     bgm1 = game.add.audio('bgm1', 0.4, true)
@@ -60,12 +60,6 @@ demo.level1.prototype = {
       this.fire()
     }
     enemyGroup.forEach(this.rotateEnemy)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)) {
-      changeState('level3')
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.U)) {
-      changeState('level4')
-    }
   },
 
   makeEnemies: function () {

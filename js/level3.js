@@ -1,116 +1,158 @@
-var bullet, bullets, enemy, enemyGroup, boomEffect, bgm3, filter, sprite
-var nextFire = 0, lives
+var enemyGroup, enemySprays, boomEffect, bgm4, filter, sprite, bullet, bullets, timer
+var nextFire = 0
 
 demo.level3 = function () {}
 demo.level3.prototype = {
   preload: function () {},
   create: function () {
     currentLevel = 3
-    bgm3 = game.add.audio('bgm3', 0.4, true)
-    bgm3.play()
-    lives = 70
+    bgm4 = game.add.audio('bgm4', 0.4, true)
+    bgm4.play()
+    //  Shader by GhettoWolf (https://www.shadertoy.com/view/Xdl3WH)
+
     var fragmentSrc = [
 
-      'precision mediump float;',
+        "precision mediump float;",
 
-      'uniform float     time;',
-      'uniform vec2      resolution;',
-      'uniform sampler2D iChannel0;',
+        "uniform float     time;",
+        "uniform vec2      resolution;",
+        "uniform sampler2D iChannel0;",
 
-      'void main( void ) {',
+        "#ifdef GL_ES",
+        "precision highp float;",
+        "#endif",
 
-      'float t = time;',
+        "#define PI 3.1416",
 
-      'vec2 uv = gl_FragCoord.xy / resolution.xy;',
-      'vec2 texcoord = gl_FragCoord.xy / vec2(resolution.y);',
+        "void main( void ) {",
 
-      'texcoord.y -= t*0.2;',
+            "//map the xy pixel co-ordinates to be between -1.0 to +1.0 on x and y axes",
+            "//and alter the x value according to the aspect ratio so it isn't 'stretched'",
 
-      'float zz = 1.0/(1.0-uv.y*1.7);',
-      'texcoord.y -= zz * sign(zz);',
+            "vec2 p = (2.0 * gl_FragCoord.xy / resolution.xy - 1.0) * vec2(resolution.x / resolution.y, 1.0);",
 
-      'vec2 maa = texcoord.xy * vec2(zz, 1.0) - vec2(zz, 0.0) ;',
-      'vec2 maa2 = (texcoord.xy * vec2(zz, 1.0) - vec2(zz, 0.0))*0.3 ;',
-      'vec4 stone = texture2D(iChannel0, maa);',
-      'vec4 blips = texture2D(iChannel0, maa);',
-      'vec4 mixer = texture2D(iChannel0, maa2);',
+            "//now, this is the usual part that uses the formula for texture mapping a ray-",
+            "//traced cylinder using the vector p that describes the position of the pixel",
+            "//from the centre.",
 
-      'float shade = abs(1.0/zz);',
+            "vec2 uv = vec2(atan(p.y, p.x) * 1.0/PI, 1.0 / sqrt(dot(p, p))) * vec2(2.0, 1.0);",
 
-      'vec3 outp = mix(shade*stone.rgb, mix(1.0, shade, abs(sin(t+maa.y-sin(maa.x))))*blips.rgb, min(1.0, pow(mixer.g*2.1, 2.0)));',
-      'gl_FragColor = vec4(outp,1.0);',
+            "//now this just 'warps' the texture read by altering the u coordinate depending on",
+            "//the val of the v coordinate and the current time",
 
-      '}'
-    ]
+            "uv.x += sin(2.0 * uv.y + time * 0.5);",
+
+            "//this divison makes the color value 'darker' into the distance, otherwise",
+            "//everything will be a uniform brightness and no sense of depth will be present.",
+
+            "vec3 c = texture2D(iChannel0, uv).xyz / (uv.y * 0.5 + 1.0);",
+
+            "gl_FragColor = vec4(c, 1.0);",
+
+        "}"
+    ];
 
     //  Texture must be power-of-two sized or the filter will break
-    sprite = game.add.sprite(0, 0, 'guts')
+    sprite = game.add.sprite(0, 0, 'smile')
     sprite.width = 800
     sprite.height = 600
 
     var customUniforms = {
-      iChannel0: { type: 'sampler2D', value: sprite.texture, textureData: { repeat: true } }
-    }
+        iChannel0: { type: 'sampler2D', value: sprite.texture, textureData: { repeat: true } }
+    };
 
-    filter = new Phaser.Filter(game, customUniforms, fragmentSrc)
+    filter = new Phaser.Filter(game, customUniforms, fragmentSrc);
     filter.setResolution(800, 600)
-
     sprite.filters = [ filter ]
-
-    bullets = game.add.group()
-    shootBullets(bullets)
-
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
     cursors = game.input.keyboard.createCursorKeys()
-    enemy = game.add.sprite(1000, 300, 'boss')
-    game.physics.enable(enemy)
-    enemy.enableBody = true
-    // enemy.body.collideWorldBounds = true
-    enemy.body.bounce.y = 0.5
-    enemy.body.bounce.x = 0.5
-    enemy.anchor.setTo(0.5, 0.5)
-    enemy.physicsBodyType = Phaser.Physics.ARCADE
-    enemy.animations.add('move', [0, 1, 2, 3, 4, 5, 6])
-    game.add.tween(enemy).to({x: 100, y: 300}, 5000, 'Linear', true, 0, -1, true)
     enemyGroup = game.add.group()
+    enemySprays = game.add.group()
+    enemySprays.enableBody = true
+    enemySprays.physicsBodyType = Phaser.Physics.ARCADE
+    bullets = game.add.group()
+    shootBullets(bullets)
+    game.time.events.loop(2100, this.makeEnemySprays, this)
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(10000, this.makeEnemies, this)
+    game.time.events.loop(1100, this.makeEnemies, this)
+    timer = game.time.create(false)
+    timer.add(132000, this.changeState, this)
+    timer.start()
   },
 
   update: function () {
-    enemy.animations.play('move', 3, true)
     filter.update()
-    game.physics.arcade.collide(enemy)
-    game.physics.arcade.overlap(enemy, bullets, this.hitGroup)
-    game.physics.arcade.overlap(enemy, ship, this.gameOver)
+    game.physics.arcade.collide(enemyGroup, enemySprays)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
+    game.physics.arcade.overlap(enemySprays, ship, this.gameOver)
+    game.physics.arcade.overlap(enemySprays, bullets, hitGroup)
+    game.physics.arcade.overlap(enemyGroup, bullets, this.slowdown)
+    enemySprays.forEach(this.rotateEnemy)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
       this.fire()
     }
-    enemyGroup.forEach(this.rotateEnemy)
   },
 
-  moveEnemy: function (it) {
-    it.animations.add('smile', [0, 1, 2])
-    game.add.tween(it).to({x: ship.x, y: ship.y}, 1500, 'Linear', true, 0, -1, true)
+  render: function() {
+    game.debug.text(timer.duration, 32, 32);
+  },
+
+  changeState: function () {
+    changeState('level4')
   },
 
   makeEnemies: function () {
-    enemyGroup.create(enemy.x, enemy.y, 'bossFire')
+    for (var i = 0; i < 1; i++) {
+      enemyGroup.create(1600, 600 * Math.random(), 'railgun')
+    }
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
-    enemyGroup.setAll('scale.x', 0.7)
-    enemyGroup.setAll('scale.y', 0.7)
+    enemyGroup.setAll('body.immovable', true);
+  },
+
+  makeEnemySprays: function () {
+    for (var i = 0; i < 1; i++) {
+      enemySprays.create(800 * Math.random(), -200, 'spray')
+    }
+    enemySprays.forEach(this.moveSpray)
+    enemySprays.setAll('anchor.y', 0.5)
+    enemySprays.setAll('anchor.x', 0.5)
+    enemySprays.setAll('scale.x', 0.5)
+    enemySprays.setAll('scale.y', 0.5)
+  },
+
+  moveEnemy: function (it) {
+    it.body.velocity.x = -550
+  },
+
+  slowdown: function (e, b) {
+    e.body.velocity.x += 50
+  },
+
+  moveSpray: function (it) {
+    it.animations.add('dim', [0, 1, 2, 3, 4, 5, 6, 7, 8])
+    it.body.bounce.y = 0.5
   },
 
   rotateEnemy: function (it) {
-    game.add.tween(it).to({x: ship.x, y: ship.y}, 500, 'Linear', true, 0, -1, false)
-    // it.body.gravity.x = 500
-    it.animations.play('smile', 2, true)
+    it.body.gravity.y = 200
     it.rotation += 0.05
+    it.animations.play('dim', 18, true)
+  },
+
+  gameOver: function (e) {
+    boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
+    ship.kill()
+    e.kill()
+    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+    boom.killOnComplete = true
+    boomEffect.animations.play('boomEffect', 14, false)
+    deadSound.play('dead')
+    bgm4.stop()
+    changeState('gameOver')
   },
 
   fire: function () {
@@ -125,39 +167,4 @@ demo.level3.prototype = {
       shootSound.play('shoot')
     }
   },
-
-  gameOver: function (e) {
-    boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    ship.kill()
-    e.kill()
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
-    bgm3.stop()
-    changeState('gameOver')
-  },
-
-  hitGroup: function (e, b) {
-    boomEffect = game.add.sprite(b.x + 20, b.y, 'boomEffect')
-    b.kill()
-    if (lives === 0) {
-      e.kill()
-      enemyGroup.kill()
-      bgm3.stop()
-      if (continueCount == 3) {
-        changeState('level4')
-      } else {
-          changeState('end')
-      }
-    } else {
-      lives = lives - 1
-    }
-
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
-    highscore = highscore + 100
-  }
 }
