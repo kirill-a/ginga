@@ -52,7 +52,8 @@ demo.level1.prototype = {
     game.physics.arcade.overlap(enemyGroup, bullets, hitGroup)
     if (highscore > 3000) {
       bgm1.stop()
-      ship.destroy()
+      ship.kill()
+      enemyGroup.kill()
       changeState('level2')
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
@@ -101,15 +102,15 @@ demo.level1.prototype = {
     it.rotation += 0.05
   },
 
-  gameOver: function (e) {
+  gameOver: function (e, s) {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    ship.kill()
-    e.kill()
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     bgm1.stop()
+    e.kill()
+    s.kill()
     changeState('gameOver')
   },
 }

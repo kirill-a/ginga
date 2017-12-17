@@ -78,7 +78,7 @@ demo.level3.prototype = {
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
     game.time.events.loop(1100, this.makeEnemies, this)
     timer = game.time.create(false)
-    timer.add(132000, this.changeState, this)
+    timer.add(100000, this.changeState, this)
     timer.start()
   },
 
@@ -100,6 +100,10 @@ demo.level3.prototype = {
   },
 
   changeState: function () {
+    bgm4.stop()
+    ship.kill()
+    enemyGroup.kill()
+    enemySprays.kill()
     changeState('level4')
   },
 
@@ -128,7 +132,7 @@ demo.level3.prototype = {
     it.body.velocity.x = -550
   },
 
-  slowdown: function (e, b) {
+  slowdown: function (e) {
     e.body.velocity.x += 50
   },
 
@@ -143,15 +147,15 @@ demo.level3.prototype = {
     it.animations.play('dim', 18, true)
   },
 
-  gameOver: function (e) {
+  gameOver: function (e, s) {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    ship.kill()
-    e.kill()
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
     bgm4.stop()
+    e.kill()
+    s.kill()
     changeState('gameOver')
   },
 
