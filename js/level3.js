@@ -18,10 +18,6 @@ demo.level3.prototype = {
         "uniform vec2      resolution;",
         "uniform sampler2D iChannel0;",
 
-        "#ifdef GL_ES",
-        "precision highp float;",
-        "#endif",
-
         "#define PI 3.1416",
 
         "void main( void ) {",
