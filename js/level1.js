@@ -6,6 +6,7 @@ demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {},
   create: function () {
+    currentLevel = 1
     continueCount = 9
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
