@@ -1,4 +1,4 @@
-var enemyGroup, enemySprays, boomEffect, bgm4, filter, sprite, bullet, bullets, timer
+var enemyGroup, enemySprays, boomEffect, bgm4, bullet, bullets, timer
 var nextFire = 0
 var bg
 
@@ -38,7 +38,7 @@ demo.level3.prototype = {
     game.physics.arcade.overlap(enemyGroup, bullets, this.slowdown)
     enemySprays.forEach(this.rotateEnemy)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      this.fire()
+      fire()
     }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
       bg.tilePosition.y += 2

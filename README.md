@@ -14,6 +14,16 @@ Sounds are from https://github.com/sparklinlabs/superpowers-asset-packs
 
 Music by http://freemusicarchive.org/music/Sycamore_Drive/The_Waves_The_Sea/
 
+To run locally, execute:
+
+`npm i`
+
+`npm run-script minify`
+
+`npm start`
+
+and open `localhost:4000`
+
 Initially developed for "Game-Off" 2017 event
 
 ![Event](/etc/gameoff.gif)

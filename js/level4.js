@@ -60,7 +60,7 @@ demo.level4.prototype = {
     bullets = game.add.group()
     shootBullets(bullets)
 
-    ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
+    var ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
     cursors = game.input.keyboard.createCursorKeys()
     enemy = game.add.sprite(1000, 300, 'boss')
@@ -86,7 +86,7 @@ demo.level4.prototype = {
     game.physics.arcade.overlap(enemy, ship, this.gameOver)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      this.fire()
+      fire()
     }
     enemyGroup.forEach(this.rotateEnemy)
   },
@@ -110,19 +110,6 @@ demo.level4.prototype = {
     // it.body.gravity.x = 500
     it.animations.play('smile', 2, true)
     it.rotation += 0.05
-  },
-
-  fire: function () {
-    if (game.time.now > nextFire) {
-      nextFire = game.time.now + 300
-      bullet = bullets.getFirstDead()
-      bullet.reset(ship.x, ship.y)
-      bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
-      bullet.animations.play('shoot', 14, true)
-      bullet.body.velocity.x = 500
-      bullet.anchor.setTo(0.4, 0.4)
-      shootSound.play('shoot')
-    }
   },
 
   gameOver: function (e) {

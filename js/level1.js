@@ -1,13 +1,13 @@
-var ship, bullet, bullets, enemyGroup, cursors, shootSound, boomEffect, deadSound, motion, bgm1
-var nextFire = 0, highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel = 1
+var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship
+var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel
 var star, texture
 
 demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {},
   create: function () {
-    currentLevel = 1
     continueCount = 9
+    currentLevel = 1
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
     bgm1 = game.add.audio('bgm1', 0.4, true)
@@ -26,11 +26,8 @@ demo.level1.prototype = {
       yy[i] = Math.floor(Math.random() * 600) - 300
       zz[i] = Math.floor(Math.random() * 1700) - 100
     }
-    bullets = game.add.group()
-    shootBullets(bullets)
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
 		game.add.existing(ship);
-    cursors = game.input.keyboard.createCursorKeys()
 
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
@@ -50,7 +47,7 @@ demo.level1.prototype = {
       }
       texture.renderXY(star, x, y)
     }
-    game.physics.arcade.overlap(enemyGroup, bullets, hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship.bullets, hitGroup)
     if (highscore > 3000) {
       bgm1.stop()
       ship.kill()
@@ -58,9 +55,6 @@ demo.level1.prototype = {
       changeState('level2')
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      this.fire()
-    }
     enemyGroup.forEach(this.rotateEnemy)
   },
 
@@ -82,19 +76,6 @@ demo.level1.prototype = {
       game.add.tween(it).to({x: 50}, 2000, 'Elastic.easeIn', true, 0, -1, true)
     } else {
       game.add.tween(it).to({x: ship.x, y: ship.y}, 1500, 'Linear', true, 0, -1, true)
-    }
-  },
-
-  fire: function () {
-    if (game.time.now > nextFire) {
-      nextFire = game.time.now + 300
-      bullet = bullets.getFirstDead()
-      bullet.reset(ship.x, ship.y)
-      bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
-      bullet.animations.play('shoot', 14, true)
-      bullet.body.velocity.x = 500
-      bullet.anchor.setTo(0.5, 0.5)
-      shootSound.play('shoot')
     }
   },
 
@@ -120,20 +101,9 @@ function hitGroup (e, b) {
   boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
   b.kill()
   e.kill()
-  boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+  var boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
   boom.killOnComplete = true
   boomEffect.animations.play('boomEffect', 14, false)
   deadSound.play('dead')
   highscore = highscore + 100
-}
-
-function shootBullets (bullets) {
-  bullets.enableBody = true
-  bullets.physicsBodyType = Phaser.Physics.ARCADE
-  bullets.createMultiple(50, 'bullet')
-  bullets.setAll('checkWorldBounds', true)
-  bullets.setAll('outOfBoundsKill', true)
-  bullets.setAll('anchor.y', 0.5)
-  bullets.setAll('scale.x', 0.6)
-  bullets.setAll('scale.y', 0.6)
 }

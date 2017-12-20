@@ -60,20 +60,7 @@ demo.level2.prototype = {
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      this.fire()
-    }
-  },
-
-  fire: function () {
-    if (game.time.now > nextFire) {
-      nextFire = game.time.now + 300
-      bullet = bullets.getFirstDead()
-      bullet.reset(ship.x, ship.y)
-      bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
-      bullet.animations.play('shoot', 14, true)
-      bullet.body.velocity.x = 500
-      bullet.anchor.setTo(0.4, 0.4)
-      shootSound.play('shoot')
+      fire()
     }
   },
 
