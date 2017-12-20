@@ -4,7 +4,7 @@
 
 Shoot-em-up arcade game [Play it on itch.io](https://kirill-a.itch.io/ginga)
 
-![Ginga](/assets/gameplay.gif)
+![Ginga](/etc/gameplay.gif)
 
 Built with JS and Phaser.js.
 
@@ -16,4 +16,4 @@ Music by http://freemusicarchive.org/music/Sycamore_Drive/The_Waves_The_Sea/
 
 Initially developed for "Game-Off" 2017 event
 
-![Event](/assets/gameoff.gif)
+![Event](/etc/gameoff.gif)
