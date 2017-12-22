@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "node_modules/light-server/bin/light-server -s .",
-    "minify": "node_modules/uglify-js/bin/uglifyjs src/menu.js src/prefabs/ship.js  src/level1.js src/level2.js src/level3.js src/level4.js src/gameOver.js src/end.js src/main.js -o min.js --compress"
+    "minify": "node_modules/uglify-js/bin/uglifyjs src/menu.js src/prefabs/ship.js src/prefabs/stateManager.js  src/level1.js src/level2.js src/level3.js src/level4.js src/gameOver.js src/end.js src/main.js -o min.js --compress"
   },
   "repository": {
     "type": "git",

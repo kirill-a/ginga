@@ -19,16 +19,16 @@ demo.end.prototype = {
       })
     })
     this.endMessage = game.add.text(game.world.centerX, game.world.centerY,
-      'Congratulations!\nYour score is ' + highscore + '\nPress Z to start again')
+      'Congratulations!\nYour score is ' + manager.highscore + '\nPress Z to start again')
     this.endMessage.fill = '#ffffff'
     this.endMessage.anchor.set(0.5, 0.5)
     this.endMessage.font = 'Candal'
   },
   update: function () {
     if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      highscore = 0
-      continueCount = 3
-      changeState('level1')
+      manager.highscore = 0
+      manager.continueCount = 3
+      game.state.start('level1')
     }
   }
 }

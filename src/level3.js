@@ -4,7 +4,7 @@ demo.level3 = function () {}
 demo.level3.prototype = {
   preload: function () {},
   create: function () {
-    currentLevel = 3
+    manager.currentLevel = 3
     bgm4 = game.add.audio('bgm4', 0.4, true)
     bgm4.play()
     bg = game.add.tileSprite(0, 0, 800, 600, 'smile');

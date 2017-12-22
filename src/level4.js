@@ -4,7 +4,7 @@ demo.level4 = function () {}
 demo.level4.prototype = {
   preload: function () {},
   create: function () {
-    currentLevel = 4
+    manager.currentLevel = 4
     bgm3 = game.add.audio('bgm3', 0.4, true)
     bgm3.play()
     lives = 70
@@ -54,7 +54,6 @@ demo.level4.prototype = {
     sprite.filters = [ filter ]
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
-    cursors = game.input.keyboard.createCursorKeys()
     enemy = game.add.sprite(1000, 300, 'boss')
     game.physics.enable(enemy)
     enemy.enableBody = true
@@ -101,7 +100,7 @@ demo.level4.prototype = {
     it.rotation += 0.05
   },
 
-  gameOver: function (e) {
+  gameOver: function () {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
@@ -130,6 +129,6 @@ demo.level4.prototype = {
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
     deadSound.play('dead')
-    highscore = highscore + 100
+    manager.highscore += 100
   }
 }

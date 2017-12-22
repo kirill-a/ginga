@@ -6,14 +6,7 @@ var del = require('del')
 gulp.task('lint', function() {
     return gulp
         .src(config.alljs)
-        .pipe($.eslint({
-            globals: [
-                'Phaser',
-                'demo',
-                'game',
-                'WebFontConfig'
-            ]
-        }))
+        .pipe($.eslint(config.exclude))
         .pipe($.eslint.format())
 })
 

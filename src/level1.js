@@ -1,12 +1,12 @@
-var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture, boom
-var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel
+var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture, boom, manager
+var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
 
 demo.level1 = function () {}
 demo.level1.prototype = {
   preload: function () {},
   create: function () {
-    continueCount = 9
-    currentLevel = 1
+    manager = new demo.Prefabs.Manager()
+    manager.currentLevel = 1
     game.stage.backgroundColor = '#800080'
     game.physics.startSystem(Phaser.Physics.ARCADE)
     bgm1 = game.add.audio('bgm1', 0.4, true)
@@ -104,5 +104,5 @@ function hitGroup (e, b) {
   boom.killOnComplete = true
   boomEffect.animations.play('boomEffect', 14, false)
   deadSound.play('dead')
-  highscore = highscore + 100
+  manager.highscore += 100
 }

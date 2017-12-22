@@ -6,7 +6,7 @@ demo.level2.prototype = {
   create: function () {
     bgm2 = game.add.audio('bgm2', 0.4, true)
     bgm2.play()
-    currentLevel = 2
+    manager.currentLevel = 2
     game.add.image(0, 0, 'sky')
     var emitter = game.add.emitter(game.world.centerX, 0, 400)
     emitter.width = game.world.width
@@ -20,7 +20,6 @@ demo.level2.prototype = {
     emitter.start(false, 1600, 5, 0)
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
-    cursors = game.input.keyboard.createCursorKeys()
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
@@ -49,7 +48,7 @@ demo.level2.prototype = {
   update: function () {
     game.physics.arcade.collide(enemyGroup)
     game.physics.arcade.overlap(enemyGroup, ship.bullets, hitGroup)
-    if (highscore > 7000) {
+    if (manager.highscore > 7000) {
       bgm2.stop()
       ship.kill()
       enemyGroup.kill()
