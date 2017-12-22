@@ -4,10 +4,8 @@
   "description": "**in development**",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node_modules/light-server/bin/light-server -s .",
-    "lint": "node_modules/eslint/bin/eslint.js js/*.js --fix",
-    "minify": "node_modules\/uglify-js\/bin\/uglifyjs js\/menu.js js\/prefabs\/ship.js  js\/level1.js js\/level2.js js\/level3.js js\/level4.js js\/gameOver.js js\/end.js js\/main.js -o min.js --compress"
+    "minify": "node_modules/uglify-js/bin/uglifyjs src/menu.js src/prefabs/ship.js  src/level1.js src/level2.js src/level3.js src/level4.js src/gameOver.js src/end.js src/main.js -o min.js --compress"
   },
   "repository": {
     "type": "git",
@@ -20,12 +18,16 @@
   },
   "homepage": "https://github.com/kirill-a/ginga#readme",
   "devDependencies": {
-    "eslint": "^4.11.0",
-    "light-server": "^2.2.1",
+    "del": "^3.0.0",
+    "eslint": "^4.13.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "uglify-js": "^3.2.0"
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.0",
+    "gulp-load-plugins": "^1.5.0",
+    "light-server": "^2.2.1",
+    "uglify-js": "^3.2.2"
   }
 }

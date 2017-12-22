@@ -48,7 +48,7 @@ demo.level3.prototype = {
     ship.kill()
     enemyGroup.kill()
     enemySprays.kill()
-    changeState('level4')
+    game.state.start('level4')
   },
 
   makeEnemies: function () {
@@ -100,6 +100,6 @@ demo.level3.prototype = {
     bgm4.stop()
     e.kill()
     s.kill()
-    changeState('gameOver')
+    game.state.start('gameOver')
   }
 }

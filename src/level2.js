@@ -53,7 +53,7 @@ demo.level2.prototype = {
       bgm2.stop()
       ship.kill()
       enemyGroup.kill()
-      changeState('level3')
+      game.state.start('level3')
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
   },
@@ -67,6 +67,6 @@ demo.level2.prototype = {
     bgm2.stop()
     e.kill()
     s.kill()
-    changeState('gameOver')
+    game.state.start('gameOver')
   }
 }

@@ -111,7 +111,7 @@ demo.level4.prototype = {
     ship.kill()
     enemyGroup.kill()
     enemy.kill()
-    changeState('gameOver')
+    game.state.start('gameOver')
   },
 
   hitGroup: function (e, b) {
@@ -121,7 +121,7 @@ demo.level4.prototype = {
       e.kill()
       bgm3.stop()
       ship.kill()
-      changeState('end')
+      game.state.start('end')
     } else {
       lives = lives - 1
     }

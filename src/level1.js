@@ -1,4 +1,4 @@
-var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture
+var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture, boom
 var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel
 
 demo.level1 = function () {}
@@ -51,7 +51,7 @@ demo.level1.prototype = {
       bgm1.stop()
       ship.kill()
       enemyGroup.kill()
-      changeState('level2')
+      game.state.start('level2')
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     enemyGroup.forEach(this.rotateEnemy)
@@ -92,7 +92,7 @@ demo.level1.prototype = {
     bgm1.stop()
     e.kill()
     s.kill()
-    changeState('gameOver')
+    game.state.start('gameOver')
   },
 }
 

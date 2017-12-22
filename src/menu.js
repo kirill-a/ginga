@@ -59,10 +59,7 @@ demo.menu.prototype = {
 
 function startFromBeginning () {
   if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-    changeState('level1')
+    game.state.start('level1')
   }
 }
 
-function changeState (stateName) {
-  game.state.start(stateName)
-}
