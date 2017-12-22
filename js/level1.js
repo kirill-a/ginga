@@ -1,6 +1,5 @@
-var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship
+var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture
 var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300, continueCount = 9, currentLevel
-var star, texture
 
 demo.level1 = function () {}
 demo.level1.prototype = {

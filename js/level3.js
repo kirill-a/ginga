@@ -1,6 +1,4 @@
-var enemyGroup, enemySprays, boomEffect, bgm4, bullet, bullets, timer
-var nextFire = 0
-var bg
+var enemyGroup, enemySprays, boomEffect, bgm4, timer, ship, bg
 
 demo.level3 = function () {}
 demo.level3.prototype = {
@@ -10,16 +8,12 @@ demo.level3.prototype = {
     bgm4 = game.add.audio('bgm4', 0.4, true)
     bgm4.play()
     bg = game.add.tileSprite(0, 0, 800, 600, 'smile');
-
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
-    cursors = game.input.keyboard.createCursorKeys()
     enemyGroup = game.add.group()
     enemySprays = game.add.group()
     enemySprays.enableBody = true
     enemySprays.physicsBodyType = Phaser.Physics.ARCADE
-    bullets = game.add.group()
-    shootBullets(bullets)
     game.time.events.loop(2100, this.makeEnemySprays, this)
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
@@ -34,12 +28,9 @@ demo.level3.prototype = {
     game.physics.arcade.collide(enemyGroup, enemySprays)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     game.physics.arcade.overlap(enemySprays, ship, this.gameOver)
-    game.physics.arcade.overlap(enemySprays, bullets, hitGroup)
-    game.physics.arcade.overlap(enemyGroup, bullets, this.slowdown)
+    game.physics.arcade.overlap(enemySprays, ship.bullets, hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship.bullets, this.slowdown)
     enemySprays.forEach(this.rotateEnemy)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      fire()
-    }
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
       bg.tilePosition.y += 2
     }
@@ -110,18 +101,5 @@ demo.level3.prototype = {
     e.kill()
     s.kill()
     changeState('gameOver')
-  },
-
-  fire: function () {
-    if (game.time.now > nextFire) {
-      nextFire = game.time.now + 300
-      bullet = bullets.getFirstDead()
-      bullet.reset(ship.x, ship.y)
-      bullet.animations.add('shoot', [0, 1, 2, 3, 4, 5, 6])
-      bullet.animations.play('shoot', 14, true)
-      bullet.body.velocity.x = 500
-      bullet.anchor.setTo(0.4, 0.4)
-      shootSound.play('shoot')
-    }
-  },
+  }
 }

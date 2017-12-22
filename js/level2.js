@@ -1,5 +1,4 @@
-var bullet, bullets, enemyGroup, boomEffect, bgm2
-var nextFire = 0
+var enemyGroup, boomEffect, bgm2, ship
 
 demo.level2 = function () {}
 demo.level2.prototype = {
@@ -19,8 +18,6 @@ demo.level2.prototype = {
     emitter.minRotation = 0
     emitter.maxRotation = 0
     emitter.start(false, 1600, 5, 0)
-    bullets = game.add.group()
-    shootBullets(bullets)
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
     cursors = game.input.keyboard.createCursorKeys()
@@ -51,7 +48,7 @@ demo.level2.prototype = {
 
   update: function () {
     game.physics.arcade.collide(enemyGroup)
-    game.physics.arcade.overlap(enemyGroup, bullets, hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship.bullets, hitGroup)
     if (highscore > 7000) {
       bgm2.stop()
       ship.kill()
@@ -59,9 +56,6 @@ demo.level2.prototype = {
       changeState('level3')
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      fire()
-    }
   },
 
   gameOver: function (e, s) {

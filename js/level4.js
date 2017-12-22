@@ -1,5 +1,4 @@
-var bullet, bullets, enemy, enemyGroup, boomEffect, bgm3, filter, sprite
-var nextFire = 0, lives
+var enemy, enemyGroup, boomEffect, bgm3, filter, sprite, ship, lives
 
 demo.level4 = function () {}
 demo.level4.prototype = {
@@ -47,20 +46,13 @@ demo.level4.prototype = {
     sprite = game.add.sprite(0, 0, 'guts')
     sprite.width = 800
     sprite.height = 600
-
     var customUniforms = {
       iChannel0: { type: 'sampler2D', value: sprite.texture, textureData: { repeat: true } }
     }
-
     filter = new Phaser.Filter(game, customUniforms, fragmentSrc)
     filter.setResolution(800, 600)
-
     sprite.filters = [ filter ]
-
-    bullets = game.add.group()
-    shootBullets(bullets)
-
-    var ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
+    ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
     cursors = game.input.keyboard.createCursorKeys()
     enemy = game.add.sprite(1000, 300, 'boss')
@@ -82,12 +74,9 @@ demo.level4.prototype = {
     enemy.animations.play('move', 3, true)
     filter.update()
     game.physics.arcade.collide(enemy)
-    game.physics.arcade.overlap(enemy, bullets, this.hitGroup)
+    game.physics.arcade.overlap(enemy, ship.bullets, this.hitGroup)
     game.physics.arcade.overlap(enemy, ship, this.gameOver)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
-      fire()
-    }
     enemyGroup.forEach(this.rotateEnemy)
   },
 
