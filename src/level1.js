@@ -51,12 +51,6 @@ demo.level1.prototype = {
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     enemyGroup.forEach(this.rotateEnemy)
-    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)) {
-      game.state.start('level3')
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.U)) {
-      game.state.start('level4')
-    }
   },
 
   makeEnemies: function () {
