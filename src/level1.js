@@ -1,4 +1,4 @@
-var enemyGroup, boomEffect, motion, bgm1, ship, star, texture, boom, manager
+var enemyGroup, motion, bgm1, ship, star, texture, manager
 var xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
 
 demo.level1 = function () {}

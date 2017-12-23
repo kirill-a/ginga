@@ -1,4 +1,4 @@
-var enemyGroup, boomEffect, bgm2, ship
+var enemyGroup, bgm2, ship
 
 demo.level2 = function () {}
 demo.level2.prototype = {
