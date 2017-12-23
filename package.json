@@ -4,8 +4,7 @@
   "description": "**in development**",
   "main": "index.html",
   "scripts": {
-    "start": "node_modules/light-server/bin/light-server -s .",
-    "minify": "node_modules/uglify-js/bin/uglifyjs src/menu.js src/prefabs/ship.js src/prefabs/stateManager.js  src/level1.js src/level2.js src/level3.js src/level4.js src/gameOver.js src/end.js src/main.js -o min.js --compress"
+    "start": "node_modules/light-server/bin/light-server -s build/"
   },
   "repository": {
     "type": "git",
@@ -25,8 +24,11 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
     "gulp-eslint": "^4.0.0",
+    "gulp-filter": "^5.0.1",
     "gulp-load-plugins": "^1.5.0",
+    "gulp-uglify": "^3.0.0",
     "light-server": "^2.2.1",
     "uglify-js": "^3.2.2"
   }
