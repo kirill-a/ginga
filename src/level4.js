@@ -1,12 +1,12 @@
-var enemy, enemyGroup, boomEffect, bgm3, filter, sprite, ship, lives
+var enemy, enemyGroup, boomEffect, bgm4, filter, sprite, ship, lives
 
 demo.level4 = function () {}
 demo.level4.prototype = {
   preload: function () {},
   create: function () {
     manager.currentLevel = 4
-    bgm3 = game.add.audio('bgm3', 0.4, true)
-    bgm3.play()
+    bgm4 = game.add.audio('bgm4', 0.4, true)
+    bgm4.play()
     lives = 70
     var fragmentSrc = [
 
@@ -100,17 +100,8 @@ demo.level4.prototype = {
     it.rotation += 0.05
   },
 
-  gameOver: function () {
-    boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    ship.boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    ship.boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    ship.deadSound.play('dead')
-    bgm3.stop()
-    ship.kill()
-    enemyGroup.kill()
-    enemy.kill()
-    game.state.start('gameOver')
+  gameOver: function (e, s) {
+    ship.gameOver(e, s, bgm4)
   },
 
   hitGroup: function (e, b) {

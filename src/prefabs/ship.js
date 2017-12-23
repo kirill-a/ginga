@@ -60,10 +60,22 @@ demo.Prefabs.Ship.prototype.fire = function() {
 demo.Prefabs.Ship.prototype.hitGroup = function(e, b) {
   b.kill()
   e.kill()
-  this.boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
+  this.boomEffect = game.add.sprite(e.x, e.y, 'boomEffect')
   this.boom = this.boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
   this.boom.killOnComplete = true
   this.boomEffect.animations.play('boomEffect', 14, false)
   ship.deadSound.play('dead')
   manager.highscore += 100
+}
+
+demo.Prefabs.Ship.prototype.gameOver = function(e, s, bgm) {
+  bgm.stop()
+  this.boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
+  this.boom = this.boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+  this.boom.killOnComplete = true
+  this.boomEffect.animations.play('boomEffect', 14, false)
+  ship.deadSound.play('dead')
+  e.kill()
+  s.kill()
+  game.state.start('gameOver')
 }

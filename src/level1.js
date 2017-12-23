@@ -51,6 +51,12 @@ demo.level1.prototype = {
     }
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     enemyGroup.forEach(this.rotateEnemy)
+    if (game.input.keyboard.isDown(Phaser.Keyboard.Y)) {
+      game.state.start('level3')
+    }
+    if (game.input.keyboard.isDown(Phaser.Keyboard.U)) {
+      game.state.start('level4')
+    }
   },
 
   makeEnemies: function () {
@@ -80,14 +86,6 @@ demo.level1.prototype = {
   },
 
   gameOver: function (e, s) {
-    boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    ship.deadSound.play('dead')
-    bgm1.stop()
-    e.kill()
-    s.kill()
-    game.state.start('gameOver')
+    ship.gameOver(e, s, bgm1)
   }
 }

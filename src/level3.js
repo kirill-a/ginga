@@ -1,12 +1,12 @@
-var enemyGroup, enemySprays, boomEffect, bgm4, timer, ship, bg
+var enemyGroup, enemySprays, bgm3, timer, ship, bg
 
 demo.level3 = function () {}
 demo.level3.prototype = {
   preload: function () {},
   create: function () {
     manager.currentLevel = 3
-    bgm4 = game.add.audio('bgm4', 0.4, true)
-    bgm4.play()
+    bgm3 = game.add.audio('bgm3', 0.4, true)
+    bgm3.play()
     bg = game.add.tileSprite(0, 0, 800, 600, 'smile');
     ship = new demo.Prefabs.Ship(game, game.world.centerX / 2, game.world.centerY)
     game.add.existing(ship)
@@ -92,14 +92,6 @@ demo.level3.prototype = {
   },
 
   gameOver: function (e, s) {
-    boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    ship.boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    ship.boom.killOnComplete = true
-    boomEffect.animations.play('boomEffect', 14, false)
-    ship.deadSound.play('dead')
-    bgm4.stop()
-    e.kill()
-    s.kill()
-    game.state.start('gameOver')
+    ship.gameOver(e, s, bgm3)
   }
 }
