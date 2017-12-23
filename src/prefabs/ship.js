@@ -39,7 +39,6 @@ demo.Prefabs.Ship.prototype.update = function() {
   } else if (this.cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.J)) {
     this.body.velocity.y = 300
   } else { this.body.velocity.y = 0 }
-
   if (game.input.keyboard.isDown(Phaser.Keyboard.Z)) {
     this.fire()
   }
@@ -57,13 +56,14 @@ demo.Prefabs.Ship.prototype.fire = function() {
     this.shootSound.play('shoot')
   }
 }
+
 demo.Prefabs.Ship.prototype.hitGroup = function(e, b) {
-  this.boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
   b.kill()
   e.kill()
+  this.boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
   this.boom = this.boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
   this.boom.killOnComplete = true
   this.boomEffect.animations.play('boomEffect', 14, false)
-  this.deadSound.play('dead')
+  ship.deadSound.play('dead')
   manager.highscore += 100
 }

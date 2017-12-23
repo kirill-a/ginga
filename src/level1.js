@@ -89,5 +89,5 @@ demo.level1.prototype = {
     e.kill()
     s.kill()
     game.state.start('gameOver')
-  },
+  }
 }
