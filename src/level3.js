@@ -24,11 +24,11 @@ demo.level3.prototype = {
   },
 
   update: function () {
-    bg.tilePosition.x += 2;
+    bg.tilePosition.x -= 2;
     game.physics.arcade.collide(enemyGroup, enemySprays)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     game.physics.arcade.overlap(enemySprays, ship, this.gameOver)
-    game.physics.arcade.overlap(enemySprays, ship.bullets, hitGroup)
+    game.physics.arcade.overlap(enemySprays, ship.bullets, ship.hitGroup)
     game.physics.arcade.overlap(enemyGroup, ship.bullets, this.slowdown)
     enemySprays.forEach(this.rotateEnemy)
     if (game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
@@ -93,10 +93,10 @@ demo.level3.prototype = {
 
   gameOver: function (e, s) {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
+    ship.boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+    ship.boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
+    ship.deadSound.play('dead')
     bgm4.stop()
     e.kill()
     s.kill()

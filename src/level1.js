@@ -1,5 +1,5 @@
-var enemyGroup, shootSound, boomEffect, deadSound, motion, bgm1, ship, star, texture, boom, manager
-var highscore = 0, xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
+var enemyGroup, boomEffect, motion, bgm1, ship, star, texture, boom, manager
+var xx = [], yy = [], zz = [], numberOfStars = 50, speed = 6, distance = 300
 
 demo.level1 = function () {}
 demo.level1.prototype = {
@@ -11,10 +11,6 @@ demo.level1.prototype = {
     game.physics.startSystem(Phaser.Physics.ARCADE)
     bgm1 = game.add.audio('bgm1', 0.4, true)
     bgm1.play()
-    shootSound = game.add.audio('shootSound')
-    shootSound.addMarker('shoot', 0, 2)
-    deadSound = game.add.audio('deadSound')
-    deadSound.addMarker('dead', 0, 2)
     game.world.setBounds(0, 0, 800, 600)
     star = game.make.sprite(0, 0, 'star')
     texture = game.add.renderTexture(800, 600, 'texture')
@@ -31,7 +27,7 @@ demo.level1.prototype = {
     enemyGroup = game.add.group()
     enemyGroup.enableBody = true
     enemyGroup.physicsBodyType = Phaser.Physics.ARCADE
-    game.time.events.loop(5000, this.makeEnemies, this)
+    game.time.events.loop(4000, this.makeEnemies, this)
   },
 
   update: function () {
@@ -46,8 +42,8 @@ demo.level1.prototype = {
       }
       texture.renderXY(star, x, y)
     }
-    game.physics.arcade.overlap(enemyGroup, ship.bullets, hitGroup)
-    if (highscore > 3000) {
+    game.physics.arcade.overlap(enemyGroup, ship.bullets, ship.hitGroup)
+    if (manager.highscore > 3000) {
       bgm1.stop()
       ship.kill()
       enemyGroup.kill()
@@ -58,7 +54,7 @@ demo.level1.prototype = {
   },
 
   makeEnemies: function () {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 4; i++) {
       enemyGroup.create(700, 150 * i + 100, 'vhs')
     }
     motion = Math.random()
@@ -88,21 +84,10 @@ demo.level1.prototype = {
     boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
+    ship.deadSound.play('dead')
     bgm1.stop()
     e.kill()
     s.kill()
     game.state.start('gameOver')
   },
-}
-
-function hitGroup (e, b) {
-  boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
-  b.kill()
-  e.kill()
-  var boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-  boom.killOnComplete = true
-  boomEffect.animations.play('boomEffect', 14, false)
-  deadSound.play('dead')
-  manager.highscore += 100
 }

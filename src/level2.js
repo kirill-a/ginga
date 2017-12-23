@@ -47,7 +47,7 @@ demo.level2.prototype = {
 
   update: function () {
     game.physics.arcade.collide(enemyGroup)
-    game.physics.arcade.overlap(enemyGroup, ship.bullets, hitGroup)
+    game.physics.arcade.overlap(enemyGroup, ship.bullets, ship.hitGroup)
     if (manager.highscore > 7000) {
       bgm2.stop()
       ship.kill()
@@ -59,10 +59,10 @@ demo.level2.prototype = {
 
   gameOver: function (e, s) {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
+    ship.boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+    ship.boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
+    ship.deadSound.play('dead')
     bgm2.stop()
     e.kill()
     s.kill()

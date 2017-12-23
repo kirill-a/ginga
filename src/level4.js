@@ -102,10 +102,10 @@ demo.level4.prototype = {
 
   gameOver: function () {
     boomEffect = game.add.sprite(ship.x, ship.y - 35, 'boomEffect')
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
-    boom.killOnComplete = true
+    ship.boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+    ship.boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
+    ship.deadSound.play('dead')
     bgm3.stop()
     ship.kill()
     enemyGroup.kill()
@@ -125,10 +125,10 @@ demo.level4.prototype = {
       lives = lives - 1
     }
 
-    boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+    var boom = boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
     boom.killOnComplete = true
     boomEffect.animations.play('boomEffect', 14, false)
-    deadSound.play('dead')
+    ship.deadSound.play('dead')
     manager.highscore += 100
   }
 }

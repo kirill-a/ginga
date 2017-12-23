@@ -18,6 +18,10 @@ demo.Prefabs.Ship = function(game, x, y) {
   this.bullets.setAll('anchor.y', 0.5)
   this.bullets.setAll('scale.x', 0.6)
   this.bullets.setAll('scale.y', 0.6)
+  this.shootSound = game.add.audio('shootSound')
+  this.shootSound.addMarker('shoot', 0, 2)
+  this.deadSound = game.add.audio('deadSound')
+  this.deadSound.addMarker('dead', 0, 2)
 }
 
 demo.Prefabs.Ship.prototype = Object.create(Phaser.Sprite.prototype)
@@ -50,6 +54,16 @@ demo.Prefabs.Ship.prototype.fire = function() {
     bullet.animations.play('shoot', 14, true)
     bullet.body.velocity.x = 500
     bullet.anchor.setTo(0.5, 0.5)
-    shootSound.play('shoot')
+    this.shootSound.play('shoot')
   }
+}
+demo.Prefabs.Ship.prototype.hitGroup = function(e, b) {
+  this.boomEffect = game.add.sprite(e.x, e.y - 35, 'boomEffect')
+  b.kill()
+  e.kill()
+  this.boom = this.boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
+  this.boom.killOnComplete = true
+  this.boomEffect.animations.play('boomEffect', 14, false)
+  this.deadSound.play('dead')
+  manager.highscore += 100
 }
