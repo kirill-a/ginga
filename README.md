@@ -18,7 +18,7 @@ To run locally, execute:
 
 `npm i`
 
-`npm run-script minify`
+`gulp pkg`
 
 `npm start`
 
