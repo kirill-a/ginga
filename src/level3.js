@@ -44,7 +44,7 @@ demo.level3.prototype = {
   },
 
   changeState: function () {
-    bgm4.stop()
+    bgm3.stop()
     ship.kill()
     enemyGroup.kill()
     enemySprays.kill()

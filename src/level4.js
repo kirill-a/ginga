@@ -109,7 +109,7 @@ demo.level4.prototype = {
     b.kill()
     if (lives === 0) {
       e.kill()
-      bgm3.stop()
+      bgm4.stop()
       ship.kill()
       game.state.start('end')
     } else {
