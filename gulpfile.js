@@ -20,7 +20,6 @@ gulp.task('build', ['clean'], () => {
         .pipe($.uglify())
         .pipe($.concat('min.js'))
         .pipe(gulp.dest(config.build))
-        
 })
 
 gulp.task('copy', ['build', 'clean'], () => {
@@ -28,8 +27,8 @@ gulp.task('copy', ['build', 'clean'], () => {
         .pipe(gulp.dest(config.build))
 })
 
-gulp.task('default', ['clean', 'build', 'copy'], () => {
-    return gulp.src('build/*')
+gulp.task('default', ['copy'], () => {
+    return gulp.src('build/**/*')
         .pipe($.zip('build.zip'))
         .pipe(gulp.dest(config.build))
 })
