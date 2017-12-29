@@ -6,6 +6,7 @@ demo.Prefabs.Ship = function(game, x, y) {
   this.body.collideWorldBounds = true
   this.body.gravity.x = -1000
   this.body.bounce.x = 0.3
+  this.body.setSize(65, 60, 20, 0)
   this.animations.add('fly', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
   this.cursors = game.input.keyboard.createCursorKeys()
   this.nextFire = 0
@@ -60,7 +61,7 @@ demo.Prefabs.Ship.prototype.fire = function() {
 demo.Prefabs.Ship.prototype.hitGroup = function(e, b) {
   b.kill()
   e.kill()
-  this.boomEffect = game.add.sprite(e.x, e.y, 'boomEffect')
+  this.boomEffect = game.add.sprite(b.x, b.y - 50, 'boomEffect')
   this.boom = this.boomEffect.animations.add('boomEffect', [0, 1, 2, 3, 4, 5])
   this.boom.killOnComplete = true
   this.boomEffect.animations.play('boomEffect', 14, false)

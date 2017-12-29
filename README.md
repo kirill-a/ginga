@@ -18,7 +18,7 @@ To run locally, execute:
 
 `npm i`
 
-`gulp pkg`
+`gulp`
 
 `npm start`
 
