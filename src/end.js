@@ -18,7 +18,7 @@ demo.end.prototype = {
         }
       })
     })
-    this.endMessage = game.add.text(game.world.centerX, game.world.centerY,
+    this.endMessage = game.add.text(game.world.centerX, game.world.centerY/2,
       'Congratulations!\nYour score is ' + manager.highscore + '\nPress Z to start again')
     this.endMessage.fill = '#ffffff'
     this.endMessage.anchor.set(0.5, 0.5)
