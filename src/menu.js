@@ -44,12 +44,6 @@ demo.menu.prototype = {
   create: function () {
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.add.sprite(0, 0, 'title')
-    if (this.ready) {
-      this.startMessage = game.add.text(game.world.centerX, game.world.centerY + 150,
-        'Press Z to start', {fontSize: 25 + 'px', font: 'Candal'})
-    }
-    this.startMessage.fill = '#ffffff'
-    this.startMessage.anchor.set(0.5, 0.5)
   },
 
   update: function () {

@@ -24,7 +24,9 @@ demo.level3.prototype = {
   },
 
   update: function () {
-    bg.tilePosition.x -= 2;
+    bg.tilePosition.x -= 2
+    enemyGroup.forEach(this.killEnemy)
+    enemySprays.forEach(this.killEnemy)
     game.physics.arcade.collide(enemyGroup, enemySprays)
     game.physics.arcade.overlap(enemyGroup, ship, this.gameOver)
     game.physics.arcade.overlap(enemySprays, ship, this.gameOver)
@@ -40,7 +42,7 @@ demo.level3.prototype = {
   },
 
   render: function() {
-    game.debug.text(timer.duration, 32, 32);
+    game.debug.text(timer.duration, 32, 32)
   },
 
   changeState: function () {
@@ -51,14 +53,20 @@ demo.level3.prototype = {
     game.state.start('level4')
   },
 
+  killEnemy: function(it) {
+    if (it.body.x + 800 < game.camera.x || it.body.y > game.camera.y + 600) {
+      it.kill()
+    }
+  },
+
   makeEnemies: function () {
     for (var i = 0; i < 1; i++) {
-      enemyGroup.create(1600, 600 * Math.random(), 'railgun')
+      enemyGroup.create(1300, 600 * Math.random(), 'railgun')
     }
     enemyGroup.forEach(this.moveEnemy)
     enemyGroup.setAll('anchor.y', 0.5)
     enemyGroup.setAll('anchor.x', 0.5)
-    enemyGroup.setAll('body.immovable', true);
+    enemyGroup.setAll('body.immovable', true)
   },
 
   makeEnemySprays: function () {

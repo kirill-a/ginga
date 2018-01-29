@@ -23,7 +23,3 @@ To run locally, execute:
 `npm start`
 
 and open `localhost:4000`
-
-Initially developed for "Game-Off" 2017 event
-
-![Event](/etc/gameoff.gif)
