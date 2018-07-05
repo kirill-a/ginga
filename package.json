@@ -4,7 +4,7 @@
   "description": "**in development**",
   "main": "index.html",
   "scripts": {
-    "start": "node_modules/light-server/bin/light-server -s build/"
+    "start": "npx light-server -s build/"
   },
   "repository": {
     "type": "git",
@@ -18,19 +18,23 @@
   "homepage": "https://github.com/kirill-a/ginga#readme",
   "devDependencies": {
     "del": "^3.0.0",
-    "eslint": "^4.13.1",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "gulp": "^3.9.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-eslint": "^4.0.0",
+    "gulp-eslint": "^4.0.2",
     "gulp-filter": "^5.0.1",
     "gulp-load-plugins": "^1.5.0",
     "gulp-uglify": "^3.0.0",
     "gulp-zip": "^4.0.0",
-    "light-server": "^2.2.1",
-    "uglify-js": "^3.2.2"
+    "light-server": "^2.5.1",
+    "uglify-js": "^3.4.3",
+    "webpack": "^4.15.0"
+  },
+  "dependencies": {
+    "gulp-cli": "^2.0.1"
   }
 }

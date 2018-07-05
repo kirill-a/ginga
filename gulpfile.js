@@ -9,26 +9,27 @@ gulp.task('lint', () => {
         .pipe($.eslint.format())
 })
 
-gulp.task('clean', () => {
+gulp.task('clean', (done) => {
     del(config.build).then((paths) => {
         console.log('Deleted files and folders:\n', paths.join('\n'))
     })
+	done()
 })
 
-gulp.task('build', ['clean'], () => {
+gulp.task('build', () => {
     return gulp.src(config.list)
         .pipe($.uglify())
         .pipe($.concat('min.js'))
         .pipe(gulp.dest(config.build))
 })
 
-gulp.task('copy', ['build', 'clean'], () => {
+gulp.task('copy', () => {
     return gulp.src(config.pkg, { base: "." })
         .pipe(gulp.dest(config.build))
 })
 
-gulp.task('default', ['copy'], () => {
+gulp.task('default', gulp.series('clean', 'build', 'copy', () => {
     return gulp.src('build/**/*')
         .pipe($.zip('build.zip'))
         .pipe(gulp.dest(config.build))
-})
+}))
