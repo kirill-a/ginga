@@ -24,7 +24,7 @@ gulp.task('build', () => {
 })
 
 gulp.task('copy', () => {
-    return gulp.src(config.pkg, { base: "." })
+    return gulp.src(config.pkg, { base: ".", encoding: false })
         .pipe(gulp.dest(config.build))
 })
 
