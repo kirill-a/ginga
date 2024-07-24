@@ -1,14 +1,10 @@
 Shoot-em-up arcade game 
-
-![Ginga](/etc/gameplay.gif)
-
 To run locally, execute:
 
-`npm i`
+- `npm ci`
+- `gulp`
+- `npm start`
 
-`gulp`
+and open `localhost:4000` in a browser
 
-`npm start`
-
-and open `localhost:4000`
-
+![Ginga](/etc/gameplay.gif)
